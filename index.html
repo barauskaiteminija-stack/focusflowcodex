@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Taskbit — One task. Every day.</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#09090B;--bg1:#0F0F12;--bg2:#131316;
+  --sur:#18181C;--sur2:#1E1E23;--sur3:#26262D;
+  --b1:rgba(255,255,255,.06);--b2:rgba(255,255,255,.10);--b3:rgba(255,255,255,.16);
+  --ink:#EDEDEF;--ink2:#8B8B95;--ink3:#55555F;
+  --ac:#6C63FF;--acl:#8A83FF;--acg:rgba(108,99,255,.22);
+  --ac-bg:rgba(108,99,255,.10);--ac-bg2:rgba(108,99,255,.18);
+  --gr:#22C55E;--gr-bg:rgba(34,197,94,.10);--gr-bd:rgba(34,197,94,.20);
+  --rd:#F87171;--rd-bg:rgba(248,113,113,.10);--rd-bd:rgba(248,113,113,.20);
+  --or:#FB923C;--or-bg:rgba(251,146,60,.10);
+  --r:10px;--rl:14px;--rxl:18px;
+  --tx:.17s cubic-bezier(.4,0,.2,1);
+  --sh:0 0 0 1px rgba(255,255,255,.04),0 8px 32px rgba(0,0,0,.5);
+  --sh2:0 0 0 1px rgba(255,255,255,.04),0 2px 8px rgba(0,0,0,.3);
+  --f:'Inter',system-ui,sans-serif;
+}
+[data-theme="light"]{
+  --bg:#F8F8FA;--bg1:#F2F2F5;--bg2:#EBEBEF;
+  --sur:#FFF;--sur2:#F5F5F8;--sur3:#EBEBEF;
+  --b1:rgba(0,0,0,.06);--b2:rgba(0,0,0,.09);--b3:rgba(0,0,0,.14);
+  --ink:#0A0A0C;--ink2:#5A5A66;--ink3:#A0A0B0;
+  --ac:#5B52F0;--acl:#7068F5;--acg:rgba(91,82,240,.15);
+  --ac-bg:rgba(91,82,240,.07);--ac-bg2:rgba(91,82,240,.13);
+  --gr:#16A34A;--gr-bg:rgba(22,163,74,.08);--gr-bd:rgba(22,163,74,.20);
+  --rd:#DC2626;--rd-bg:rgba(220,38,38,.08);--rd-bd:rgba(220,38,38,.20);
+  --or:#EA580C;--or-bg:rgba(234,88,12,.08);
+  --sh:0 0 0 1px rgba(0,0,0,.06),0 4px 24px rgba(0,0,0,.08);
+  --sh2:0 0 0 1px rgba(0,0,0,.06),0 2px 8px rgba(0,0,0,.05);
+}
+.c0{--pac:#6C63FF;--pac-bg:rgba(108,99,255,.10);--pac-bd:rgba(108,99,255,.25)}
+.c1{--pac:#F59E0B;--pac-bg:rgba(245,158,11,.10);--pac-bd:rgba(245,158,11,.25)}
+.c2{--pac:#10B981;--pac-bg:rgba(16,185,129,.10);--pac-bd:rgba(16,185,129,.25)}
+.c3{--pac:#F43F5E;--pac-bg:rgba(244,63,94,.10);--pac-bd:rgba(244,63,94,.25)}
+.c4{--pac:#3B82F6;--pac-bg:rgba(59,130,246,.10);--pac-bd:rgba(59,130,246,.25)}
+.c5{--pac:#8B5CF6;--pac-bg:rgba(139,92,246,.10);--pac-bd:rgba(139,92,246,.25)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;min-height:100%;scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100%;display:flex;flex-direction:column;overflow-x:hidden;overflow-y:auto}
+
+/* TOPBAR */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:52px;border-bottom:1px solid var(--b1);background:var(--bg2);flex-shrink:0;z-index:50;position:relative}
+.logo{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:700;color:var(--ink);letter-spacing:-.3px}
