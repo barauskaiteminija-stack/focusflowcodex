@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Taskbit — One task. Every day.</title>
+<meta name="description" content="Taskbit turns your goals into smart daily plans. One focused task per day until the work is done. Free plan available. Serious plan €2.99/month.">
+<meta name="robots" content="index,follow">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -43,10 +45,10 @@
 .c5{--pac:#8B5CF6;--pac-bg:rgba(139,92,246,.10);--pac-bd:rgba(139,92,246,.25)}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{font-size:16px;min-height:100%;scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
-body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100%;display:flex;flex-direction:column;overflow-x:hidden;overflow-y:auto}
+body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden;overflow-y:auto}
 
 /* TOPBAR */
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:52px;border-bottom:1px solid var(--b1);background:var(--bg2);flex-shrink:0;z-index:50;position:relative}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:52px;border-bottom:1px solid var(--b1);background:var(--bg2);flex-shrink:0;z-index:50;position:sticky;top:0}
 .logo{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:700;color:var(--ink);letter-spacing:-.3px}
 .logo-mark{width:26px;height:26px;background:var(--ac);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;box-shadow:0 0 12px var(--acg)}
 .topbar-c{position:absolute;left:50%;transform:translateX(-50%);display:none}
@@ -65,10 +67,10 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100%;
 [data-theme="light"] .plan-badge.serious{color:var(--ac)}
 
 /* SHELL */
-.shell{display:flex;flex:1;min-height:calc(100dvh - 52px)}
+.shell{display:flex;flex:1;min-height:0}
 
 /* SIDEBAR */
-.sidebar{width:236px;flex-shrink:0;border-right:1px solid var(--b1);background:var(--bg1);display:flex;flex-direction:column;padding:14px 10px;overflow-y:auto;position:sticky;top:52px;align-self:flex-start;height:calc(100dvh - 52px)}
+.sidebar{width:236px;flex-shrink:0;border-right:1px solid var(--b1);background:var(--bg1);display:flex;flex-direction:column;padding:14px 10px;overflow-y:auto;position:sticky;top:52px;align-self:flex-start;max-height:calc(100vh - 52px)}
 .sb-lbl{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--ink3);padding:0 8px;margin-bottom:3px;margin-top:14px}
 .sb-lbl:first-child{margin-top:0}
 .sb-btn{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:9px;font-size:13px;font-weight:500;color:var(--ink2);cursor:pointer;border:1px solid transparent;background:none;font-family:var(--f);transition:all var(--tx);width:100%;text-align:left}
@@ -104,7 +106,7 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100%;
 @keyframes fup{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
 /* HERO */
-.screen.on.hero-screen{min-height:calc(100dvh - 124px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:28px 20px 48px;background:var(--bg);}
+.screen.on.hero-screen{min-height:calc(100dvh - 72px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px 56px;background:var(--bg);}
 @media(max-width:768px){.screen.on.hero-screen{min-height:calc(100dvh - 148px);padding:24px 6px 48px;}}
 .hero-eyebrow{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--acl);margin-bottom:20px}
 [data-theme="light"] .hero-eyebrow{color:var(--ac)}
@@ -474,14 +476,24 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100%;
 .legal-title{font-size:16px;font-weight:700;color:var(--ink);letter-spacing:-.3px}
 .legal-x{width:30px;height:30px;border-radius:8px;border:none;background:none;cursor:pointer;color:var(--ink2);font-size:18px;display:flex;align-items:center;justify-content:center;transition:all var(--tx)}
 .legal-x:hover{background:var(--sur2);color:var(--ink)}
-.legal-body{padding:22px;font-size:13px;line-height:1.7;color:var(--ink2)}
-.legal-body h2{font-size:14px;font-weight:700;color:var(--ink);margin:18px 0 6px}
+.legal-body{padding:22px 24px;font-size:13px;line-height:1.75;color:var(--ink2)}
+.legal-body h2{font-size:14px;font-weight:700;color:var(--ink);margin:22px 0 7px}
 .legal-body h2:first-child{margin-top:0}
-.legal-body p{margin-bottom:10px}
-.legal-body ul{margin:6px 0 10px 18px}
-.legal-body li{margin-bottom:4px}
+.legal-body p{margin-bottom:11px}
+.legal-body ul{margin:6px 0 11px 20px}
+.legal-body li{margin-bottom:5px}
+.legal-body strong{color:var(--ink);font-weight:600}
+.legal-body code{background:var(--sur2);border:1px solid var(--b1);border-radius:4px;padding:1px 5px;font-size:12px;font-family:monospace}
+.legal-body a{color:var(--acl);text-decoration:none}
+[data-theme="light"] .legal-body a{color:var(--ac)}
+.legal-body a:hover{text-decoration:underline}
 /* PC subscription note */
 .pc-subscription-note{font-size:11px;color:var(--ink3);line-height:1.5;margin-bottom:14px;padding:8px 10px;background:var(--sur2);border-radius:7px;border:1px solid var(--b1)}
+.pc-subscription-note strong{color:var(--ink)}
+.pc-trust-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:12px}
+.pc-trust-item{font-size:11px;color:var(--ink3);background:var(--sur2);border:1px solid var(--b1);border-radius:99px;padding:3px 10px;white-space:nowrap}
+.price-card.featured .pc-trust-item{background:rgba(108,99,255,.08);border-color:rgba(108,99,255,.15);color:var(--acl)}
+[data-theme="light"] .price-card.featured .pc-trust-item{color:var(--ac)}
 @media(max-width:768px){.app-footer{padding:16px;margin-bottom:64px}.footer-inner{gap:12px}.footer-trust-row{flex-direction:column}.footer-bottom{flex-direction:column;align-items:flex-start;gap:8px}}</style>
 </head>
 <body>
@@ -559,8 +571,13 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100%;
             <li><span>✓</span> Stay consistent and accountable</li>
             <li><span>✓</span> Export your finished work</li>
           </ul>
-          <div class="pc-subscription-note">This is a monthly subscription. You will be charged €2.99/month until you cancel. Cancel anytime from Stripe.</div>
+          <div class="pc-subscription-note">By proceeding you agree to a <strong>recurring subscription of €2.99/month</strong>. Cancel anytime via Stripe. 30-day money-back guarantee — email taskbit.support@gmail.com if not satisfied.</div>
           <button class="pc-btn" onclick="openCheckout()">🔒 Start Serious — €2.99/mo</button>
+          <div class="pc-trust-row">
+            <span class="pc-trust-item">🛡️ 30-day refund</span>
+            <span class="pc-trust-item">🔐 Stripe secure</span>
+            <span class="pc-trust-item">↩ Cancel anytime</span>
+          </div>
         </div>
       </div>
     </div>
@@ -599,8 +616,13 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100%;
               <li><span>✓</span> Stay consistent and accountable</li>
               <li><span>✓</span> Export your finished work</li>
             </ul>
-            <div class="pc-subscription-note">Monthly subscription. Charged €2.99/month until cancelled.</div>
+            <div class="pc-subscription-note">Recurring subscription: <strong>€2.99/month</strong> billed monthly via Stripe. Cancel anytime. 30-day money-back guarantee — email taskbit.support@gmail.com if not satisfied.</div>
             <button class="pc-btn" id="seriousPlanBtn" onclick="openCheckout()">🔒 Start Serious — €2.99/mo</button>
+            <div class="pc-trust-row">
+              <span class="pc-trust-item">🛡️ 30-day refund</span>
+              <span class="pc-trust-item">🔐 Stripe secure</span>
+              <span class="pc-trust-item">↩ Cancel anytime</span>
+            </div>
           </div>
         </div>
       </div>
@@ -983,7 +1005,7 @@ function openCheckout(){
   toast('Complete payment in the new tab, then come back ✓');
 }
 
-function startChill(){setPlan('chill');showApp();activeProjs().length?nav('today'):showSetup();}
+function startChill(){setPlan('chill');showApp();const f=$("appFooter");if(f)f.classList.add("show");activeProjs().length?nav('today'):showSetup();}
 function switchToChill(){setPlan('chill');activeProjs().length?nav('today'):showSetup();toast('Switched to Chill mode.');}
 
 function checkStripeReturn(){
@@ -998,12 +1020,23 @@ function checkStripeReturn(){
 }
 function showPaymentSuccess(){
   const existing=document.getElementById('paySuccessBanner');if(existing)existing.remove();
+  if(!document.getElementById('paySlideKf')){
+    const s=document.createElement('style');s.id='paySlideKf';
+    s.textContent='@keyframes paySlide{from{opacity:0;transform:translateX(-50%) translateY(-24px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}';
+    document.head.appendChild(s);
+  }
   const banner=document.createElement('div');banner.id='paySuccessBanner';
-  banner.style.cssText='position:fixed;top:64px;left:50%;transform:translateX(-50%);z-index:9998;background:linear-gradient(135deg,#16A34A,#15803d);color:#fff;padding:16px 28px;border-radius:14px;box-shadow:0 8px 32px rgba(22,163,74,.4);font-family:var(--f);text-align:center;min-width:300px;max-width:90vw;animation:paySlide .4s cubic-bezier(.34,1.56,.64,1)';
-  banner.innerHTML=`<div style="font-size:22px;margin-bottom:6px">🎉</div><div style="font-size:15px;font-weight:700;margin-bottom:3px">You're now on Serious plan!</div><div style="font-size:13px;opacity:.9">All features unlocked. Start your first project below.</div>`;
-  if(!document.getElementById('paySlideKf')){const s=document.createElement('style');s.id='paySlideKf';s.textContent='@keyframes paySlide{from{opacity:0;transform:translateX(-50%) translateY(-20px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}';document.head.appendChild(s);}
+  banner.style.cssText='position:fixed;top:68px;left:50%;transform:translateX(-50%);z-index:9998;background:linear-gradient(135deg,#15803d,#16A34A);color:#fff;padding:18px 32px 16px;border-radius:16px;box-shadow:0 12px 40px rgba(22,163,74,.45);font-family:var(--f);text-align:center;min-width:320px;max-width:92vw;animation:paySlide .45s cubic-bezier(.34,1.56,.64,1)';
+  banner.innerHTML=`
+    <div style="font-size:28px;margin-bottom:8px">🎉</div>
+    <div style="font-size:17px;font-weight:700;margin-bottom:4px">You're now on Serious!</div>
+    <div style="font-size:13px;opacity:.88;margin-bottom:14px;line-height:1.4">All features are unlocked. Multiple projects,<br>smarter plans, PDF export — it's all yours.</div>
+    <button onclick="this.closest('#paySuccessBanner').remove();showSetup();" style="background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);color:#fff;border-radius:8px;padding:8px 20px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--f)">Start your first project →</button>
+  `;
   document.body.appendChild(banner);
-  setTimeout(()=>{banner.style.opacity='0';banner.style.transition='opacity .5s ease';setTimeout(()=>banner.remove(),500);},5000);
+  setTimeout(()=>{
+    if(banner.parentNode){banner.style.opacity='0';banner.style.transition='opacity .6s ease';setTimeout(()=>banner.remove(),600);}
+  },8000);
 }
 
 function updatePlanUI(){
@@ -1013,20 +1046,25 @@ function updatePlanUI(){
     badge.textContent=serious?'⚡ Serious':'Free plan';
     badge.style.display='inline-flex';
   }
-  // Update upgrade screen buttons
   const cp=$('chillPlanBtn');const sp=$('seriousPlanBtn');
-  if(cp)cp.textContent=serious?'Switch to Chill':'Current plan';
+  if(cp){cp.textContent=serious?'Switch to Chill':'✓ Current plan';cp.disabled=!serious;}
   if(sp){
-    sp.textContent=serious?'✓ Active plan':'🔒 Unlock with Stripe';
-    sp.onclick=serious?null:openCheckout;
-    sp.style.opacity=serious?'.6':'';
-    sp.style.cursor=serious?'default':'';
+    if(serious){
+      sp.textContent='✓ Active plan';
+      sp.style.opacity='.65';
+      sp.style.cursor='default';
+      sp.onclick=null;
+    } else {
+      sp.textContent='🔒 Start Serious — €2.99/mo';
+      sp.style.opacity='';
+      sp.style.cursor='';
+      sp.onclick=openCheckout;
+    }
   }
-  // Export button lock for Chill
   const expBtn=$('exportPdfBtn');
-  if(expBtn){expBtn.classList.toggle('locked',!serious);expBtn.title=serious?'':'Serious plan required';}
+  if(expBtn){expBtn.classList.toggle('locked',!serious);expBtn.title=serious?'Export as PDF':'Upgrade to Serious to export PDF';}
   const expFin=$('expFinBtn');
-  if(expFin){expFin.classList.toggle('locked',!serious);}
+  if(expFin){expFin.classList.toggle('locked',!serious);expFin.title=serious?'':'Upgrade to Serious to export';}
 }
 
 function requireSerious(msg){
@@ -1196,7 +1234,9 @@ function createProjectFromSetup(){
 /* ══ APP ══ */
 function showApp(){$('topTabs').classList.add('show');$('mobNav').style.display=window.matchMedia('(max-width:768px)').matches?'block':'';const f=$('appFooter');if(f)f.classList.add('show');}
 function showSetup(){
-  showApp();updatePlanUI();setNav('today');$('setupMode').textContent=(isSerious()?'Serious':'Chill')+' mode';
+  showApp();updatePlanUI();setNav('today');
+  const _sf=$('appFooter');if(_sf)_sf.classList.add('show');
+  $('setupMode').textContent=(isSerious()?'Serious':'Chill')+' mode';
   if($('sDate'))$('sDate').valueAsDate=TODAY;
   showScreen('s-setup');setTimeout(()=>$('sGoal').focus(),80);
 }
@@ -1510,8 +1550,63 @@ function nav(v){
 }
 
 /* ══ LEGAL ══ */
-const PRIVACY_HTML=`<h2>What we collect</h2><p>Taskbit stores your project data (goals, tasks, written entries) locally in your browser using localStorage. This data never leaves your device and is not sent to any server.</p><h2>Payments</h2><p>If you upgrade to Serious, payment is handled entirely by Stripe. We do not store your card details. Stripe may collect payment information in accordance with their own privacy policy.</p><h2>Cookies &amp; tracking</h2><p>Taskbit does not use cookies or any third-party tracking or analytics. We do not use Google Analytics, Facebook Pixel, or any similar tools.</p><h2>Your data</h2><p>All your work is stored in your browser. Clearing your browser data will remove it. We recommend downloading a .txt backup regularly.</p><h2>Contact</h2><p>Questions? Email us at taskbit.support@gmail.com</p><p style="margin-top:18px;font-size:11px;color:var(--ink3)">Last updated: January 2025</p>`;
-const TERMS_HTML=`<h2>Using Taskbit</h2><p>Taskbit is a personal productivity tool. You may use it for personal, educational, or professional projects. You may not resell, redistribute, or reverse-engineer the app.</p><h2>Subscription</h2><p>The Serious plan is a monthly subscription charged at €2.99/month via Stripe. You can cancel anytime. Cancellation stops future charges but does not refund the current billing period, except where covered by our 30-day money-back guarantee.</p><h2>30-day money-back guarantee</h2><p>If you are not satisfied with Taskbit within 30 days of your first payment, email taskbit.support@gmail.com with your request and we will issue a full refund, no questions asked.</p><h2>Data &amp; availability</h2><p>Your data is stored in your browser and is your responsibility to back up. We make no guarantee of uptime or data preservation. Taskbit is provided as-is.</p><h2>Limitation of liability</h2><p>Taskbit is not liable for any loss of data, loss of work, or any indirect or consequential damages arising from your use of the app.</p><h2>Changes</h2><p>We may update these terms at any time. Continued use of the app constitutes acceptance of the updated terms.</p><h2>Contact</h2><p>Questions? Email us at taskbit.support@gmail.com</p><p style="margin-top:18px;font-size:11px;color:var(--ink3)">Last updated: January 2025</p>`;
+const PRIVACY_HTML=`
+<p style="margin-bottom:16px;font-size:12px;color:var(--ink3)">Effective date: January 2025 &nbsp;·&nbsp; Contact: taskbit.support@gmail.com</p>
+<h2>1. What data we collect</h2>
+<p>Taskbit stores all project data — including your goals, task descriptions, and written entries — <strong>locally in your browser</strong> using <code>localStorage</code>. This data is never transmitted to any server and never leaves your device.</p>
+<p>We do not collect your name, email address, or any personal information through the app itself.</p>
+<h2>2. Payment data</h2>
+<p>If you subscribe to the Serious plan, your payment is processed entirely by <strong>Stripe</strong>, a certified PCI-compliant payment processor. We never see or store your card number, billing address, or any payment credentials. Stripe's privacy policy applies to data collected during checkout: <a href="https://stripe.com/privacy" target="_blank" style="color:var(--acl)">stripe.com/privacy</a>.</p>
+<p>Stripe may share with us your email address for billing communications only.</p>
+<h2>3. Cookies &amp; tracking</h2>
+<p>Taskbit does not use cookies, analytics, or any third-party tracking scripts. We do not use Google Analytics, Facebook Pixel, or any similar tools. There is no advertising or retargeting.</p>
+<h2>4. How your data is used</h2>
+<ul>
+  <li>Your locally stored data is used solely to run the app on your device.</li>
+  <li>Subscription status is stored in your browser's <code>localStorage</code> to keep you logged in.</li>
+  <li>We use no data for marketing, profiling, or any purpose beyond delivering the app.</li>
+</ul>
+<h2>5. Data retention &amp; deletion</h2>
+<p>Your data exists only in your browser. You can delete it at any time by clearing your browser's local storage. We have no copy of it on any server.</p>
+<h2>6. Children's privacy</h2>
+<p>Taskbit is not directed at children under 16. We do not knowingly collect data from minors.</p>
+<h2>7. Changes to this policy</h2>
+<p>We may update this policy. The effective date above will be updated accordingly. Continued use of the app constitutes acceptance.</p>
+<h2>8. Contact</h2>
+<p>For privacy questions, email us at <strong>taskbit.support@gmail.com</strong>.</p>
+`;
+const TERMS_HTML=`
+<p style="margin-bottom:16px;font-size:12px;color:var(--ink3)">Effective date: January 2025 &nbsp;·&nbsp; Contact: taskbit.support@gmail.com</p>
+<h2>1. Acceptance</h2>
+<p>By using Taskbit, you agree to these Terms of Service. If you do not agree, please do not use the app.</p>
+<h2>2. Description of service</h2>
+<p>Taskbit is a personal productivity app that helps you break goals into daily tasks and track progress. It is available as a free tier (Chill) and a paid subscription (Serious).</p>
+<h2>3. Subscription — Serious plan</h2>
+<ul>
+  <li><strong>Price:</strong> €2.99 per month (recurring)</li>
+  <li><strong>Billing:</strong> Charged automatically each month via Stripe until cancelled</li>
+  <li><strong>Cancel anytime:</strong> You can cancel your subscription at any time. Cancellation takes effect at the end of the current billing period — you retain access until then.</li>
+  <li><strong>No refund for partial periods</strong>, except as covered by our 30-day money-back guarantee below.</li>
+</ul>
+<h2>4. 30-day money-back guarantee</h2>
+<p>If you are not satisfied with Taskbit within <strong>30 days of your first payment</strong>, email us at <strong>taskbit.support@gmail.com</strong> and we will issue a full refund — no questions asked. After 30 days, refunds are at our discretion.</p>
+<h2>5. Acceptable use</h2>
+<ul>
+  <li>You may use Taskbit for personal, educational, or professional work.</li>
+  <li>You may not resell, redistribute, sub-license, or reverse-engineer the app.</li>
+  <li>You may not attempt to circumvent the payment system or access Serious features without a valid subscription.</li>
+</ul>
+<h2>6. Data &amp; availability</h2>
+<p>Your data is stored locally in your browser. You are responsible for backing it up (use the Export feature). We make no guarantee of uptime, data persistence, or availability. Taskbit is provided "as-is" without warranty of any kind.</p>
+<h2>7. Limitation of liability</h2>
+<p>To the maximum extent permitted by law, Taskbit and its creators are not liable for any loss of data, loss of work, business interruption, or any indirect, incidental, or consequential damages arising from your use of the app.</p>
+<h2>8. Changes to terms</h2>
+<p>We may update these terms at any time. The effective date above will reflect the latest version. Continued use of the app constitutes acceptance of updated terms.</p>
+<h2>9. Governing law</h2>
+<p>These terms are governed by the laws of the European Union and the country in which the operator is based.</p>
+<h2>10. Contact</h2>
+<p>Questions or concerns? Email us at <strong>taskbit.support@gmail.com</strong>.</p>
+`;
 function showLegal(type){
   const ov=$('legalOv');if(!ov)return;
   $('legalTitle').textContent=type==='privacy'?'Privacy Policy':'Terms of Service';
