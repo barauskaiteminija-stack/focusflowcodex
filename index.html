@@ -231,6 +231,9 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
 [data-theme="light"] .today-phase{color:var(--pac,var(--ac))}
 .today-txt{font-size:19px;font-weight:600;line-height:1.3;color:var(--ink);margin-bottom:6px;letter-spacing:-.3px}
 .today-hint{font-size:12px;color:var(--ink3)}
+.today-estimate{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:var(--ink3);background:var(--sur2);border:1px solid var(--b2);border-radius:99px;padding:2px 9px}
+.today-why{font-size:12px;color:var(--ink3);line-height:1.55;margin-top:8px;padding:8px 11px;background:var(--sur2);border-left:2px solid var(--pac,var(--ac));border-radius:0 6px 6px 0;display:none}
+.today-why.show{display:block}
 .today-foot{padding:13px 20px;border-top:1px solid var(--b1);display:flex;gap:8px}
 .btn-done{flex:1;padding:11px;background:var(--pac,var(--ac));color:#fff;border:none;border-radius:9px;font-family:var(--f);font-size:13px;font-weight:600;cursor:pointer;transition:all var(--tx)}
 .btn-done:hover{opacity:.9}
@@ -250,6 +253,10 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
 .prog-val{font-size:14px;font-weight:700;color:var(--ink)}
 .prog-track{height:5px;background:var(--sur3);border-radius:99px;overflow:hidden}
 .prog-bar{height:100%;border-radius:99px;background:var(--pac,var(--ac));transition:width .7s cubic-bezier(.34,1.56,.64,1)}
+.streak-msg{font-size:12px;font-weight:600;color:var(--gr);padding:7px 11px;border-radius:8px;background:var(--gr-bg);border:1px solid var(--gr-bd);margin-bottom:4px;display:none;line-height:1.4}
+.streak-msg.show{display:block}
+.streak-msg.warn{color:var(--or);background:var(--or-bg);border-color:rgba(251,146,60,.25)}
+.streak-msg.danger{color:var(--rd);background:var(--rd-bg);border-color:var(--rd-bd)}
 .auto-row{background:var(--gr-bg);border:1px solid var(--gr-bd);border-radius:9px;padding:11px 13px}
 .auto-tag{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--gr);margin-bottom:2px}
 .auto-txt{font-size:12px;color:var(--ink2)}
@@ -313,6 +320,7 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
 .at-item:hover .at-edit-btn{opacity:1}
 .at-edit-btn:hover{background:var(--sur3);color:var(--ink)}
 .at-edit-input{flex:1;background:var(--sur2);border:1.5px solid var(--ac);border-radius:6px;font-family:var(--f);font-size:13px;color:var(--ink);padding:4px 9px;outline:none;min-width:0}
+.at-est{font-size:10px;font-weight:600;color:var(--ink3);background:var(--sur2);border:1px solid var(--b1);border-radius:99px;padding:1px 7px;margin-left:7px;white-space:nowrap;vertical-align:middle}
 
 /* DOCUMENT */
 .doc-main{background:var(--sur);border:1px solid var(--b2);border-radius:var(--rxl);overflow:hidden}
@@ -364,7 +372,7 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
 [data-theme="light"] .c-cell.is-today .c-num{color:var(--ac)}
 .today-pill{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;border-radius:99px;background:var(--ac);color:#fff;font-size:11px;font-weight:700;padding:0 3px;box-shadow:0 0 7px var(--acg)}
 .c-ev{display:flex;align-items:center;gap:3px;padding:2px 5px;border-radius:4px;font-size:10px;font-weight:500;margin-bottom:2px;overflow:hidden;white-space:nowrap;max-width:100%;text-overflow:ellipsis}
-.ev-done{background:var(--gr-bg);color:var(--gr)}.ev-today{background:var(--ac-bg2);color:var(--acl)}.ev-future{background:var(--sur3);color:var(--ink3)}.ev-skip{background:var(--rd-bg);color:var(--rd)}.ev-dl{background:var(--rd-bg);color:var(--rd);font-weight:700}
+.ev-done{background:var(--gr-bg);color:var(--gr)}.ev-today{background:var(--ac-bg2);color:var(--acl)}.ev-future{background:var(--sur3);color:var(--ink3)}.ev-skip{background:var(--rd-bg);color:var(--rd)}.ev-missed{background:var(--or-bg);color:var(--or);font-weight:600}.ev-dl{background:var(--rd-bg);color:var(--rd);font-weight:700}
 [data-theme="light"] .ev-today{color:var(--ac)}
 .ev-d{width:4px;height:4px;border-radius:50%;background:currentColor;flex-shrink:0}
 .cal-write-dot{position:absolute;top:5px;right:5px;font-size:9px;line-height:1;opacity:.7}
@@ -712,9 +720,12 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
           <div class="today-body">
             <div class="today-bg" id="todayBg">1</div>
             <div class="today-ey"><div class="today-ey-d"></div>Today's task</div>
-            <div class="today-phase" id="todayPhase">Setup</div>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:9px">
+              <div class="today-phase" id="todayPhase" style="margin-bottom:0">Setup</div>
+              <div class="today-estimate" id="todayEstimate"></div>
+            </div>
             <div class="today-txt" id="todayTxt">—</div>
-            <div class="today-hint">Just this. Nothing more.</div>
+            <div class="today-why" id="todayWhy"></div>
           </div>
           <div class="today-foot">
             <button class="btn-done" id="btnDone" onclick="markDone()">Mark as done ✓</button>
@@ -731,6 +742,7 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
             <div class="prog-hd"><span class="prog-lbl">Progress</span><span class="prog-val" id="progPct">0%</span></div>
             <div class="prog-track"><div class="prog-bar" id="progBar" style="width:0%"></div></div>
           </div>
+          <div class="streak-msg" id="streakMsg"></div>
           <div class="auto-row"><div class="auto-tag">Auto-saved</div><div class="auto-txt" id="autoTxt">Complete your first task.</div></div>
         </div>
       </div>
@@ -809,6 +821,7 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
             <div class="leg-i" style="color:var(--acl)"><div class="leg-dot" style="background:var(--ac)"></div>Today</div>
             <div class="leg-i" style="color:var(--ink3)"><div class="leg-dot" style="background:var(--ink3)"></div>Upcoming</div>
             <div class="leg-i" style="color:var(--rd)"><div class="leg-dot" style="background:var(--rd)"></div>Deadline</div>
+            <div class="leg-i" style="color:var(--or)"><div class="leg-dot" style="background:var(--or)"></div>Missed</div>
             <div class="leg-i" style="color:var(--ink2)">✍️ Written</div>
           </div>
         </div>
@@ -1180,7 +1193,39 @@ function genTasks(goal,desc,total){
   const mid=Math.ceil(total/2)-1;
   if(total>2)pool[mid]={ph:'Review',text:'Halfway check — review everything built so far and fill any gaps'};
   if(total>1)pool[total-1]={ph:'Deliver',text:'Final review — make it the best it can be, then deliver'};
-  return pool.map((p,i)=>({day:i+1,text:p.text,phase:p.ph,done:false,skipped:false,dailyWords}));
+  const TIME_BY_PHASE={
+    'Setup':'10–20 min','Prepare':'10–20 min','Plan':'15–25 min','Orientate':'15–20 min',
+    'Research':'30–60 min','Foundations':'45–60 min','Foundation':'45–60 min',
+    'Draft':'45–90 min','Build':'45–90 min','Depth':'45–75 min',
+    'Review':'20–40 min','Consolidate':'30–45 min','Polish':'20–35 min','Refine':'20–35 min',
+    'Submit':'10–20 min','Ship':'20–40 min','Deliver':'10–20 min','Apply':'30–60 min','Finish':'15–30 min'
+  };
+  const WHY_BY_PHASE={
+    'Setup':'Getting organised now saves time later — this is the foundation everything else builds on.',
+    'Prepare':'A clear starting point removes the biggest barrier: not knowing where to begin.',
+    'Plan':'A concrete plan turns a vague goal into a sequence of doable steps.',
+    'Orientate':'Knowing the landscape before diving in saves you from going in the wrong direction.',
+    'Research':'Good research makes everything that follows faster, clearer, and more credible.',
+    'Foundations':'Getting the structure right early means you won\'t have to rebuild it later.',
+    'Foundation':'Getting the structure right early means you won\'t have to rebuild it later.',
+    'Draft':'First drafts are never perfect — the goal is to get the ideas out. You\'ll improve it.',
+    'Build':'This is the core work. Each session here moves the project measurably forward.',
+    'Depth':'Going deeper on each topic is where real understanding (and quality) gets built.',
+    'Review':'Reviewing your work at this stage catches problems while there\'s still time to fix them.',
+    'Consolidate':'Pulling everything together reveals gaps and turns scattered work into a coherent whole.',
+    'Polish':'The difference between good and finished is in the details. This step gets you there.',
+    'Refine':'Strengthening weak areas now ensures the final output is something you\'re proud of.',
+    'Submit':'Almost there. A final check before delivering protects you from avoidable last-minute errors.',
+    'Ship':'Shipping is a skill. A clean final check ensures your work lands well.',
+    'Deliver':'This is what the whole project has been building toward. Make it count.',
+    'Apply':'Applying knowledge is where it actually becomes yours — and where the real value is created.',
+    'Finish':'Crossing the finish line is rarer than you think. You\'re nearly there.'
+  };
+  return pool.map((p,i)=>({
+    day:i+1,text:p.text,phase:p.ph,done:false,skipped:false,dailyWords,
+    estimate:TIME_BY_PHASE[p.ph]||'20–40 min',
+    hint:WHY_BY_PHASE[p.ph]||'This step moves your project forward.'
+  }));
 }
 
 /* ══ REBALANCE (Serious only) ══ */
@@ -1318,27 +1363,74 @@ function renderToday(){
   const p=getProj();if(!p){showSetup();return;}
   applyColor(p.ci||0);setSwitcher('todaySwitcher',renderToday);renderSbProjs();
   const cur=curDay(p);const t=p.tasks[cur-1];
-  const done=p.tasks.filter(x=>x.done).length;const pct=Math.round((done/p.total)*100);
-  $('dashGoal').textContent=p.goal;$('dashSub').textContent=`Day ${cur} of ${p.total}`;
+  const done=p.tasks.filter(x=>x.done).length;
+  const pct=Math.round((done/p.total)*100);
+  const behind=(cur-1)-done;
+  const daysLeft=p.total-cur;
+
+  $('dashGoal').textContent=p.goal;
+  $('dashSub').textContent=`Day ${cur} of ${p.total} · ${p.total-done} remaining`;
   $('dashMode').textContent=(isSerious()?'Serious':'Chill')+' mode';
-  $('todayTxt').textContent=t.text;$('todayBg').textContent=cur;$('todayPhase').textContent=t.phase||'';
-  $('stDone').textContent=done;$('stLeft').textContent=p.total-done;$('stStreak').textContent=p.streak;
-  $('progPct').textContent=pct+'%';$('progBar').style.width=pct+'%';
-  $('sbGoalName').textContent=p.goal;$('sbBarFill').style.width=pct+'%';$('sbDay').textContent='Day '+cur;$('sbPct').textContent=pct+'%';$('sbGoal').classList.add('show');
+  $('todayTxt').textContent=t.text;
+  $('todayBg').textContent=cur;
+  $('todayPhase').textContent=t.phase||'';
+
+  // Estimate pill
+  const estEl=$('todayEstimate');
+  if(estEl)estEl.textContent=t.estimate?'\u23F1 '+t.estimate:'';
+
+  // Why hint
+  const whyEl=$('todayWhy');
+  if(whyEl){whyEl.textContent=t.hint||'This step moves your project forward.';whyEl.classList.add('show');}
+
+  $('stDone').textContent=done;
+  $('stLeft').textContent=p.total-done;
+  $('stStreak').textContent=p.streak;
+  $('progPct').textContent=pct+'%';
+  $('progBar').style.width=pct+'%';
+  $('sbGoalName').textContent=p.goal;
+  $('sbBarFill').style.width=pct+'%';
+  $('sbDay').textContent='Day '+cur;
+  $('sbPct').textContent=pct+'%';
+  $('sbGoal').classList.add('show');
+
+  // Auto-saved row message
   const dArr=p.tasks.filter(x=>x.done);
-  $('autoTxt').textContent=dArr.length?`Day ${dArr[dArr.length-1].day}: "${dArr[dArr.length-1].text.slice(0,48)}…"`:'Complete your first task.';
+  let autoMsg='Complete your first task.';
+  if(dArr.length){
+    if(behind>=2&&isSerious())autoMsg="You're behind \u2014 let's recover today. One task at a time.";
+    else if(p.streak>=3)autoMsg=`${p.streak} days in a row \uD83D\uDD25 \u2014 keep the streak going.`;
+    else if(p.streak>=1)autoMsg=`Day ${dArr[dArr.length-1].day} done: "${dArr[dArr.length-1].text.slice(0,40)}\u2026"`;
+    else autoMsg=`Day ${dArr[dArr.length-1].day}: "${dArr[dArr.length-1].text.slice(0,48)}\u2026"`;
+  }
+  $('autoTxt').textContent=autoMsg;
+
   const btn=$('btnDone');
-  if(t.done||t.skipped){btn.classList.add('done');btn.textContent=t.done?'✓ Completed':'Skipped';}
-  else{btn.classList.remove('done');btn.textContent='Mark as done ✓';}
+  if(t.done||t.skipped){btn.classList.add('done');btn.textContent=t.done?'\u2713 Completed':'Skipped';}
+  else{btn.classList.remove('done');btn.textContent='Mark as done \u2713';}
+
   // Urgency banner
   const ub=$('urgencyBanner');ub.className='banner';ub.innerHTML='';
-  const daysLeft=p.total-cur;const behind=(cur-1)-done;
-  if(behind>=2&&isSerious()){ub.classList.add('show','banner-danger');ub.innerHTML=`<span>⚠️ You're ${behind} task${behind>1?'s':''} behind. Need ~${Math.ceil((p.total-done)/(p.total-cur+1))}/day.</span>`;}
-  else if(daysLeft<=3&&daysLeft>0){ub.classList.add('show','banner-danger');ub.innerHTML=`<span>🔴 ${daysLeft} day${daysLeft>1?'s':''} left — final push!</span>`;}
-  else if(daysLeft<=7&&daysLeft>3){ub.classList.add('show','banner-warn');ub.innerHTML=`<span>⏰ ${daysLeft} days until deadline.</span>`;}
-  // Behind banner (Serious only)
+  if(behind>=2&&isSerious()){ub.classList.add('show','banner-danger');ub.innerHTML=`<span>\u26A0\uFE0F You're ${behind} task${behind>1?'s':''} behind. Need ~${Math.ceil((p.total-done)/(p.total-cur+1))}/day.</span>`;}
+  else if(daysLeft<=3&&daysLeft>0){ub.classList.add('show','banner-danger');ub.innerHTML=`<span>\uD83D\uDD34 ${daysLeft} day${daysLeft>1?'s':''} left \u2014 final push!</span>`;}
+  else if(daysLeft<=7&&daysLeft>3){ub.classList.add('show','banner-warn');ub.innerHTML=`<span>\u23F0 ${daysLeft} days until deadline.</span>`;}
+
+  // Behind banner (Serious only — rebalance option)
   const bb=$('behindBanner');
   if(behind>=2&&isSerious())bb.classList.add('show');else bb.classList.remove('show');
+
+  // Streak message card
+  const sm=$('streakMsg');
+  if(sm){
+    sm.className='streak-msg';
+    if(behind>=3){sm.textContent="You're behind \u2014 let's recover today. Just this one task.";sm.classList.add('show','danger');}
+    else if(behind>=1){sm.textContent="You've missed a day. Get back on track \u2014 do today's task now.";sm.classList.add('show','warn');}
+    else if(p.streak>=7){sm.textContent=`\uD83D\uDD25 ${p.streak} days in a row \u2014 you're on a serious streak. Keep it going.`;sm.classList.add('show');}
+    else if(p.streak>=3){sm.textContent=`${p.streak} days in a row \uD83D\uDD25 \u2014 nice consistency. Don't break it now.`;sm.classList.add('show');}
+    else if(p.streak===1){sm.textContent='First task done. The streak starts now.';sm.classList.add('show');}
+    else sm.classList.remove('show');
+  }
+
   renderLists(p,cur);initWP(p,cur);
 }
 function renderLists(p,cur){
@@ -1356,7 +1448,9 @@ function markDone(){
   if(!p.tasks[cur-1]||p.tasks[cur-1].done||p.tasks[cur-1].skipped)return;
   p.tasks[cur-1].done=true;p.streak++;save();
   btn.classList.add('done');btn.textContent='✓ Completed';
-  setTimeout(()=>{if(p.tasks.every(t=>t.done||t.skipped))showFinish(p);else{renderToday();toast('Nice work! 🔥','ok');}},700);
+  const feedbacks=['Nice. That\u2019s progress.','Done. One step closer.','Good. Keep going.','That counts. Really.','Progress made. See you tomorrow.'];
+  const fb=feedbacks[Math.floor(Math.random()*feedbacks.length)];
+  setTimeout(()=>{if(p.tasks.every(t=>t.done||t.skipped))showFinish(p);else{renderToday();toast(fb+' \uD83D\uDD25','ok');}},700);
 }
 function skipDay(){
   const p=getProj();if(!p)return;const cur=curDay(p);
@@ -1424,7 +1518,8 @@ function renderTasks(){
   $('atList').innerHTML=p.tasks.map((t,i)=>{
     let cls='at-item',ch='·';
     if(t.done){cls+=' at-done';ch='✓';}else if(t.skipped){cls+=' at-skip';ch='✕';}else if(t.day===cur){cls+=' at-cur';ch='→';}
-    return`<li class="${cls}" id="at-${i}"><div class="at-chk">${ch}</div><span class="at-txt">${esc(t.text)}</span><span class="at-date">${df(t)}</span><button class="at-edit-btn" onclick="editTask(${i})" title="Edit">✎</button></li>`;
+    const est=t.estimate?`<span class="at-est">⏱ ${esc(t.estimate)}</span>`:'';
+    return`<li class="${cls}" id="at-${i}"><div class="at-chk">${ch}</div><span class="at-txt">${esc(t.text)}${est}</span><span class="at-date">${df(t)}</span><button class="at-edit-btn" onclick="editTask(${i})" title="Edit">✎</button></li>`;
   }).join('');
 }
 function editTask(idx){
@@ -1509,8 +1604,15 @@ function renderCal(){
     items.slice(0,2).forEach(item=>{
       if(item.isDl){evs+=`<div class="c-ev ev-dl"><div class="ev-d"></div>DL:${esc(item.proj.goal.slice(0,8))}</div>`;return;}
       const cur=curDay(item.proj);let ec='c-ev ';
-      if(item.t.done)ec+='ev-done';else if(item.t.skipped)ec+='ev-skip';else if(item.t.day===cur)ec+='ev-today';else ec+='ev-future';
-      evs+=`<div class="${ec}"><div class="ev-d" style="background:${COLORS[item.proj.ci||0]}"></div>${esc(item.t.text.slice(0,16))}…</div>`;
+      const itemDate=item.t.day&&item.proj.startDate?addD(item.proj.startDate,item.t.day-1):null;
+      const isMissed=itemDate&&itemDate<TDS&&!item.t.done&&!item.t.skipped;
+      if(item.t.done)ec+='ev-done';
+      else if(item.t.skipped)ec+='ev-skip';
+      else if(isMissed)ec+='ev-missed';
+      else if(item.t.day===cur)ec+='ev-today';
+      else ec+='ev-future';
+      const icon=item.t.done?'✓ ':isMissed?'✕ ':'';
+      evs+=`<div class="${ec}"><div class="ev-d" style="background:${COLORS[item.proj.ci||0]}"></div>${icon}${esc(item.t.text.slice(0,14))}…</div>`;
     });
     if(items.length>2)evs+=`<div style="font-size:10px;color:var(--ink3);padding:1px 4px">+${items.length-2}</div>`;
     const wd=writtenDates.has(cds)?`<div class="cal-write-dot">✍️</div>`:'';
