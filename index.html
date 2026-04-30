@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Taskbit — One task. Every day.</title>
+<title>Taskbit: One task. Every day.</title>
 <meta name="description" content="Taskbit turns your goals into smart daily plans. One focused task per day until the work is done. Free plan available. Serious plan €2.99/month.">
 <meta name="robots" content="index,follow">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -116,6 +116,9 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
 [data-theme="light"] .hero-h1 .hi{color:var(--ac)}
 .hero-sub{font-size:clamp(15px,1.8vw,19px);color:var(--ink2);line-height:1.75;max-width:540px;margin:0 auto 38px;font-weight:500;text-align:center}
 .hero-hl{color:var(--ink);font-weight:700}
+.hero-trust-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:10px}
+.htb-item{font-size:12px;font-weight:500;color:var(--ink3)}
+.htb-dot{color:var(--ink3);font-size:12px}
 .hero-features{display:flex;gap:10px;margin-top:28px;flex-wrap:wrap;justify-content:center}
 .hero-feat{display:flex;align-items:center;gap:6px;background:var(--sur);border:1px solid var(--b2);border-radius:99px;padding:7px 16px;font-size:13px;font-weight:500;color:var(--ink2)}
 .hero-feat-dot{width:6px;height:6px;border-radius:50%;background:var(--gr)}
@@ -170,6 +173,38 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
 .btn-ghost{display:inline-flex;align-items:center;gap:6px;background:none;color:var(--ink2);border:1.5px solid var(--b2);border-radius:var(--r);font-family:var(--f);font-size:14px;font-weight:500;padding:11px 22px;cursor:pointer;transition:all var(--tx)}
 .btn-ghost:hover{border-color:var(--b3);color:var(--ink)}
 
+/* ONBOARDING */
+.ob-wrap{max-width:580px;margin:0 auto;padding:40px 0 60px}
+.ob-step{animation:fup .25s ease}
+.ob-step-num{font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--ink3);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.ob-step-num::before{content:'';flex:none;width:28px;height:2px;background:var(--b2);border-radius:1px}
+.ob-step-num::after{content:'';flex:1;height:2px;background:var(--b2);border-radius:1px}
+.ob-q{font-size:clamp(24px,4vw,36px);font-weight:700;color:var(--ink);letter-spacing:-.8px;line-height:1.15;margin-bottom:8px}
+.ob-hint{font-size:14px;color:var(--ink2);line-height:1.6;margin-bottom:20px}
+.ob-input{margin-top:4px}
+.ob-input.f-in{font-size:18px;padding:14px 16px}
+.ob-error{font-size:12px;color:var(--rd);margin-top:6px;display:none}
+.ob-error.show{display:block}
+.ob-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:24px}
+.ob-next svg{width:15px;height:15px}
+.ob-date-row{display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:start}
+.ob-preview{display:flex;flex-direction:column;gap:0;border:1.5px solid var(--b2);border-radius:var(--rxl);overflow:hidden;background:var(--sur);margin-top:20px;position:relative}
+.ob-preview-fade{height:0;pointer-events:none}
+.ob-task-prev{display:flex;align-items:flex-start;gap:12px;padding:14px 18px;border-bottom:1px solid var(--b1);transition:background var(--tx)}
+.ob-task-prev:last-child{border-bottom:none}
+.ob-task-prev:hover{background:var(--sur2)}
+.ob-task-num{width:24px;height:24px;flex-shrink:0;border-radius:50%;background:var(--ac-bg);color:var(--acl);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-top:1px}
+[data-theme="light"] .ob-task-num{color:var(--ac)}
+.ob-task-body{flex:1}
+.ob-task-ph{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--ink3);margin-bottom:3px}
+.ob-task-txt{font-size:14px;font-weight:500;color:var(--ink);line-height:1.4}
+.ob-task-est{font-size:11px;color:var(--ink3);margin-top:3px}
+.ob-more{padding:12px 18px;font-size:12px;color:var(--ink3);font-style:italic;text-align:center;background:var(--sur2)}
+.ob-timeline{display:flex;align-items:center;gap:10px;margin-top:16px;padding:12px 16px;background:var(--ac-bg);border:1px solid rgba(108,99,255,.18);border-radius:var(--r);font-size:13px;color:var(--acl);font-weight:500}
+[data-theme="light"] .ob-timeline{color:var(--ac)}
+.ob-timeline-d{width:6px;height:6px;border-radius:50%;background:var(--ac);flex-shrink:0}
+@media(max-width:600px){.ob-date-row{grid-template-columns:1fr}.ob-wrap{padding:24px 0 60px}}
+
 /* SETUP */
 .setup-wrap{max-width:920px;margin:0 auto}
 .setup-panel{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(260px,.75fr);gap:18px;align-items:start}
@@ -194,6 +229,21 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
 .proj-add-tab{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:99px;border:1.5px dashed var(--b2);font-size:13px;font-weight:500;cursor:pointer;background:none;color:var(--ink3);transition:all var(--tx);font-family:var(--f)}
 .proj-add-tab:hover{border-color:var(--ac);color:var(--acl);background:var(--ac-bg)}
 [data-theme="light"] .proj-add-tab:hover{color:var(--ac)}
+
+/* WELCOME PREVIEW */
+.welcome-preview{background:var(--sur);border:1.5px solid rgba(108,99,255,.22);border-radius:var(--rxl);margin-bottom:16px;overflow:hidden;animation:fup .3s ease;box-shadow:0 0 20px var(--acg)}
+.wp-prev-inner{display:flex;align-items:center;gap:12px;padding:14px 18px}
+.wp-prev-ico{font-size:22px;flex-shrink:0}
+.wp-prev-body{flex:1}
+.wp-prev-t{font-size:14px;font-weight:700;color:var(--ink);letter-spacing:-.2px}
+.wp-prev-s{font-size:12px;color:var(--ink2);margin-top:2px}
+.wp-prev-x{background:none;border:none;cursor:pointer;color:var(--ink3);font-size:15px;padding:4px 8px;border-radius:6px;transition:all var(--tx)}
+.wp-prev-x:hover{background:var(--sur2);color:var(--ink)}
+.wp-prev-tasks{border-top:1px solid var(--b1)}
+.wp-prev-task{display:flex;align-items:center;gap:10px;padding:10px 18px;border-bottom:1px solid var(--b1);font-size:13px;color:var(--ink2)}
+.wp-prev-task:last-child{border-bottom:none}
+.wp-prev-day{font-size:10px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--acl);background:var(--ac-bg);border-radius:5px;padding:2px 8px;flex-shrink:0;white-space:nowrap}
+[data-theme="light"] .wp-prev-day{color:var(--ac)}
 
 /* BANNERS */
 .banner{display:none;align-items:center;justify-content:space-between;border-radius:var(--r);padding:11px 16px;margin-bottom:16px;font-size:13px;gap:12px;flex-wrap:wrap}
@@ -551,8 +601,15 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
     <!-- WELCOME / PRICING -->
     <div class="screen hero-screen" id="s-welcome">
       <div class="hero-eyebrow"><div class="hero-eyebrow-d"></div>The daily work planner</div>
-      <h1 class="hero-h1">One focused task a day.<span class="hi">Your project finishes itself.</span></h1>
-      <p class="hero-sub">Describe your goal, pick a deadline — Taskbit builds a <span class="hero-hl">smart daily plan</span> and tracks your progress until the work is <span class="hero-hl">actually done.</span></p>
+      <h1 class="hero-h1">The only way to finish<span class="hi">is to start today.</span></h1>
+      <p class="hero-sub">Describe your goal, get a daily plan, and actually complete it. <span class="hero-hl">No overwhelm. No guessing. Just today's task.</span></p>
+      <div class="hero-trust-bar">
+        <span class="htb-item">No tracking. No ads.</span>
+        <span class="htb-dot">·</span>
+        <span class="htb-item">Built by an independent developer</span>
+        <span class="htb-dot">·</span>
+        <span class="htb-item">🔐 Secure payments via Stripe</span>
+      </div>
       <div class="pricing-row">
         <!-- CHILL -->
         <div class="price-card">
@@ -567,7 +624,7 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
             <li><span>✓</span> Calendar tracking</li>
             <li><span>✓</span> Skip anytime</li>
           </ul>
-          <button class="pc-btn" onclick="startChill()">Start free — no payment needed</button>
+          <button class="pc-btn" onclick="startOnboarding()">Start free, no payment needed</button>
         </div>
         <!-- SERIOUS -->
         <div class="price-card featured">
@@ -586,12 +643,75 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
           <div class="pc-subscription-note">
   <strong>€2.99/month · Recurring subscription · Cancel anytime</strong><br>Billed monthly by Stripe until cancelled. 30-day money-back guarantee — email taskbit.support@gmail.com if not satisfied.
 </div>
-          <button class="pc-btn" onclick="openCheckout()">🔒 Start Serious — €2.99/mo</button>
+          <button class="pc-btn" onclick="openCheckout()">🔒 Start Serious, €2.99/mo</button>
           <div class="pc-trust-row">
             <span class="pc-trust-item">🛡️ 30-day refund</span>
             <span class="pc-trust-item">🔐 Stripe secure</span>
             <span class="pc-trust-item">↩ Cancel anytime</span>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GUIDED ONBOARDING -->
+    <div class="screen" id="s-onboard">
+      <div class="ob-wrap">
+        <!-- STEP 1 -->
+        <div class="ob-step" id="ob1">
+          <div class="ob-step-num">Step 1 of 3</div>
+          <div class="ob-q">What do you want to finish?</div>
+          <div class="ob-hint">Give it a clear name. This becomes your project goal.</div>
+          <input class="f-in ob-input" id="obGoal" type="text" placeholder="e.g. Internship report, Portfolio site, Study for exam…" maxlength="80" autocomplete="off">
+          <div class="ob-error" id="obGoalErr">Please describe what you want to finish.</div>
+          <div class="ob-desc-wrap">
+            <label class="f-lbl" style="margin-top:16px">Describe what needs to be done <span style="font-weight:400;color:var(--ink3)">(optional but recommended)</span></label>
+            <textarea class="f-ta ob-input" id="obDesc" placeholder="e.g.&#10;- Introduction&#10;- Company overview&#10;- Tasks performed&#10;- Conclusion&#10;~3000 words" style="min-height:110px;margin-top:8px"></textarea>
+            <div class="f-hint">Bullet points become daily tasks. A word count helps set targets.</div>
+          </div>
+          <div class="ob-actions">
+            <button class="btn-p ob-next" onclick="obNext(1)">Next — set your deadline <svg viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 7.5h9M8 3.5l4 4-4 4"/></svg></button>
+          </div>
+        </div>
+        <!-- STEP 2 -->
+        <div class="ob-step" id="ob2" style="display:none">
+          <div class="ob-step-num">Step 2 of 3</div>
+          <div class="ob-q">When is your deadline?</div>
+          <div class="ob-hint">Pick the date you need this done by. Taskbit works backwards to build your daily plan.</div>
+          <div class="ob-date-row">
+            <div>
+              <label class="f-lbl">Deadline / end date</label>
+              <input class="f-in" id="obDeadline" type="date" style="max-width:240px;margin-top:6px">
+            </div>
+            <div>
+              <label class="f-lbl">Or choose a duration</label>
+              <div class="chips" style="margin-top:6px" id="obChips">
+                <button class="chip" onclick="obPickDays(3,this)">3 days</button>
+                <button class="chip" onclick="obPickDays(5,this)">5 days</button>
+                <button class="chip" onclick="obPickDays(7,this)">1 week</button>
+                <button class="chip" onclick="obPickDays(14,this)">2 weeks</button>
+                <button class="chip" onclick="obPickDays(21,this)">3 weeks</button>
+                <button class="chip" onclick="obPickDays(30,this)">1 month</button>
+              </div>
+            </div>
+          </div>
+          <div class="ob-error" id="obDaysErr">Please set a deadline or choose a duration.</div>
+          <div class="ob-actions" style="margin-top:20px">
+            <button class="btn-ghost" onclick="obBack(2)" style="font-size:13px;padding:10px 18px">← Back</button>
+            <button class="btn-p ob-next" onclick="obNext(2)">Preview my plan <svg viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 7.5h9M8 3.5l4 4-4 4"/></svg></button>
+          </div>
+        </div>
+        <!-- STEP 3: PLAN PREVIEW -->
+        <div class="ob-step" id="ob3" style="display:none">
+          <div class="ob-step-num">Step 3 of 3</div>
+          <div class="ob-q">Here's your plan</div>
+          <div class="ob-hint" id="ob3Sub">—</div>
+          <div class="ob-preview" id="obPreview"></div>
+          <div class="ob-preview-fade"></div>
+          <div class="ob-actions" style="margin-top:20px">
+            <button class="btn-ghost" onclick="obBack(3)" style="font-size:13px;padding:10px 18px">← Back</button>
+            <button class="btn-p" onclick="obCommit()" style="font-size:15px;padding:13px 32px">Start my plan — it's free <svg viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 7.5h9M8 3.5l4 4-4 4"/></svg></button>
+          </div>
+          <div style="margin-top:12px;font-size:12px;color:var(--ink3);text-align:center">No payment needed. Your first project is always free.</div>
         </div>
       </div>
     </div>
@@ -633,7 +753,7 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
             <div class="pc-subscription-note">
   <strong>€2.99/month · Recurring subscription · Cancel anytime</strong><br>Billed monthly by Stripe until cancelled. 30-day money-back guarantee — email taskbit.support@gmail.com if not satisfied.
 </div>
-            <button class="pc-btn" id="seriousPlanBtn" onclick="openCheckout()">🔒 Start Serious — €2.99/mo</button>
+            <button class="pc-btn" id="seriousPlanBtn" onclick="openCheckout()">🔒 Start Serious, €2.99/mo</button>
             <div class="pc-trust-row">
               <span class="pc-trust-item">🛡️ 30-day refund</span>
               <span class="pc-trust-item">🔐 Stripe secure</span>
@@ -702,6 +822,17 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
     <!-- TODAY -->
     <div class="screen" id="s-today">
       <div class="proj-switcher" id="todaySwitcher"></div>
+      <div class="welcome-preview" id="welcomePreview" style="display:none">
+        <div class="wp-prev-inner">
+          <div class="wp-prev-ico">🎯</div>
+          <div class="wp-prev-body">
+            <div class="wp-prev-t" id="wpPrevTitle">Your plan is ready.</div>
+            <div class="wp-prev-s" id="wpPrevSub">Here is what the next few days look like.</div>
+          </div>
+          <button class="wp-prev-x" onclick="this.closest('.welcome-preview').style.display='none'" title="Dismiss">✕</button>
+        </div>
+        <div class="wp-prev-tasks" id="wpPrevTasks"></div>
+      </div>
       <div class="banner" id="urgencyBanner"></div>
       <div class="banner" id="behindBanner">
         <span>⚠️ You're falling behind. Rebalance your remaining tasks?</span>
@@ -762,7 +893,7 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
           </div>
           <div class="wp-y-body" id="wpYBody"></div>
         </div>
-        <textarea class="wp-area" id="wpArea" placeholder="Write your actual work here — it builds your live document automatically…" oninput="wpInput()"></textarea>
+        <textarea class="wp-area" id="wpArea" placeholder="Write your actual work here. It builds your live document automatically." oninput="wpInput()"></textarea>
         <div class="wp-prog-bg" id="wpProgBg"><div class="wp-prog-fill" id="wpProgFill" style="width:0%"></div></div>
         <div class="wp-ft">
           <div style="display:flex;flex-direction:column;gap:2px">
@@ -804,7 +935,7 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
           <div class="doc-empty" id="docEmpty">
             <span class="doc-empty-i">✍️</span>
             <div class="doc-empty-t">Nothing written yet</div>
-            <div class="doc-empty-s">Write in the panel on the Today screen — it appears here day by day.</div>
+            <div class="doc-empty-s">Write in the panel on the Today screen. It appears here day by day.</div>
           </div>
         </div>
       </div>
@@ -935,7 +1066,7 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
         <span class="footer-shield">🛡️</span>
         <div>
           <div class="footer-guarantee-title">30-day money-back guarantee</div>
-          <div class="footer-guarantee-sub">Not satisfied within 30 days? Email <strong>taskbit.support@gmail.com</strong> for a full refund — no questions asked.</div>
+          <div class="footer-guarantee-sub">Not satisfied within 30 days? Email <strong>taskbit.support@gmail.com</strong> for a full refund. No questions asked.</div>
         </div>
       </div>
       <div class="footer-stripe-badge">
@@ -958,7 +1089,7 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
         <span class="footer-sep">·</span>
         <button class="footer-legal-btn" onclick="showLegal('terms')">Terms of Service</button>
         <span class="footer-sep">·</span>
-        <span class="footer-copy">© 2025 Taskbit</span>
+        <span class="footer-copy">© 2025 Taskbit · No tracking · No ads · Built by an independent developer</span>
       </div>
     </div>
   </div>
@@ -1007,7 +1138,7 @@ function fallbackCopy(text,okMsg){
   ta.value=text;ta.setAttribute('readonly','');ta.style.position='fixed';ta.style.left='-9999px';
   document.body.appendChild(ta);ta.select();
   try{document.execCommand('copy');toast(okMsg,'ok');}
-  catch(e){toast('Copy failed — select the text and copy manually','warn');}
+  catch(e){toast('Copy failed. Select the text and copy manually.','warn');}
   ta.remove();
 }
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
@@ -1023,14 +1154,15 @@ function toggleTheme(){const n=document.documentElement.getAttribute('data-theme
 function getPlan(){return localStorage.getItem('taskbit_pro')==='true'?'serious':(localStorage.getItem('tb_plan')||'chill');}
 function setPlan(p){localStorage.setItem('tb_plan',p);if(p==='serious')localStorage.setItem('taskbit_pro','true');else localStorage.removeItem('taskbit_pro');updatePlanUI();}
 function isSerious(){return getPlan()==='serious';}
+function hasPlan(){const p=localStorage.getItem('tb_plan');return !!(p&&p!=='none');}
 
 function openCheckout(){
   const win=window.open(STRIPE_URL,'_blank');
-  if(!win){toast('Popup blocked — allow popups to open Stripe','warn');return;}
+  if(!win){toast('Popup blocked. Please allow popups to open Stripe.','warn');return;}
   toast('Complete payment in the new tab, then come back ✓');
 }
 
-function startChill(){setPlan('chill');showApp();const f=$("appFooter");if(f)f.classList.add("show");activeProjs().length?nav('today'):showSetup();}
+function startChill(){setPlan('chill');showApp();const f=$("appFooter");if(f)f.classList.add("show");activeProjs().length?nav('today'):startOnboarding();}
 function switchToChill(){setPlan('chill');activeProjs().length?nav('today'):showSetup();toast('Switched to Chill mode.');}
 
 function checkStripeReturn(){
@@ -1071,7 +1203,7 @@ function updatePlanUI(){
     badge.className='plan-badge '+(serious?'serious':'chill');
     badge.textContent=serious?'⚡ Serious plan':'Free plan';
     badge.style.display='inline-flex';
-    badge.title=serious?'Serious plan active — €2.99/month':'Free plan (Chill)';
+    badge.title=serious?'Serious plan active, €2.99/month':'Free plan (Chill)';
   }
   const cp=$('chillPlanBtn');const sp=$('seriousPlanBtn');
   if(cp){cp.textContent=serious?'Switch to Chill':'✓ Current plan';cp.disabled=!serious;}
@@ -1082,7 +1214,7 @@ function updatePlanUI(){
       sp.style.cursor='default';
       sp.onclick=null;
     } else {
-      sp.textContent='🔒 Start Serious — €2.99/mo';
+      sp.textContent='🔒 Start Serious, €2.99/mo';
       sp.style.opacity='';
       sp.style.cursor='';
       sp.onclick=openCheckout;
@@ -1134,10 +1266,10 @@ function activeProjs(){return PROJS.filter(p=>!p.archived);}
 
 /* ══ TASK ENGINE ══ */
 const BP={
-  writing:[{ph:'Setup',w:.08,t:["Gather all notes, sources and references — get everything in one place","Create your document structure: headings, sections, outline"]},{ph:'Research',w:.12,t:["Research the background and context you need","Find and organise supporting sources and examples","Take structured notes — summarise key points"]},{ph:'Draft',w:.45,t:["Write the first body section — get ideas down, not perfection","Continue drafting the next section","Write through the middle sections","Draft the discussion or analysis","Write conclusions — what are the key takeaways?","Write the introduction last"]},{ph:'Review',w:.20,t:["Read through everything — note what's unclear","Fill gaps and strengthen weak sections","Check flow: does each section lead to the next?"]},{ph:'Polish',w:.10,t:["Proofread for grammar, spelling, clarity","Check formatting: headings, spacing, page numbers"]},{ph:'Submit',w:.05,t:["Add references, citations, appendices","Final read — submit or deliver"]}],
+  writing:[{ph:'Setup',w:.08,t:["Gather all notes, sources and references. Get everything in one place.","Create your document structure: headings, sections, outline"]},{ph:'Research',w:.12,t:["Research the background and context you need","Find and organise supporting sources and examples","Take structured notes — summarise key points"]},{ph:'Draft',w:.45,t:["Write the first body section — get ideas down, not perfection","Continue drafting the next section","Write through the middle sections","Draft the discussion or analysis","Write conclusions — what are the key takeaways?","Write the introduction last"]},{ph:'Review',w:.20,t:["Read through everything — note what's unclear","Fill gaps and strengthen weak sections","Check flow: does each section lead to the next?"]},{ph:'Polish',w:.10,t:["Proofread for grammar, spelling, clarity","Check formatting: headings, spacing, page numbers"]},{ph:'Submit',w:.05,t:["Add references, citations, appendices","Final read — submit or deliver"]}],
   coding:[{ph:'Plan',w:.08,t:["Define scope: what exactly does this need to do?","Set up dev environment, repo, project structure"]},{ph:'Foundation',w:.15,t:["Build the data model and core interfaces","Create app skeleton — routing, layout","Set up database or data layer"]},{ph:'Build',w:.45,t:["Implement the first core feature","Test and fix the first feature","Implement the second feature","Handle edge cases and errors","Implement the third feature","Connect all features together"]},{ph:'Polish',w:.17,t:["Add UI styling and visual polish","Improve UX — loading states, feedback","Write tests for critical paths"]},{ph:'Ship',w:.15,t:["Fix remaining bugs","Write documentation or README","Final review — deploy or submit"]}],
   learning:[{ph:'Orientate',w:.08,t:["Gather materials — books, videos, notes","Map what you need to know: write a learning outline"]},{ph:'Foundations',w:.20,t:["Study foundational concepts — don't skip basics","Take notes in your own words","First self-test: what do you remember?"]},{ph:'Depth',w:.40,t:["Deep dive the first major topic","Apply with exercises or a practice project","Study the second major topic","Test yourself — identify gaps","Study the third major topic","Connect all topics together"]},{ph:'Consolidate',w:.20,t:["Work through weakest areas again","Do a full practice test","Review everything — summarise each topic"]},{ph:'Apply',w:.12,t:["Apply knowledge to a real problem","Teach it or explain it out loud"]}],
-  generic:[{ph:'Prepare',w:.10,t:["Set up workspace and gather everything you need","Define what the finished result looks like"]},{ph:'Start',w:.15,t:["Complete the first concrete step","Build on it: do the second step"]},{ph:'Build',w:.40,t:["Continue the core work","Go deeper — add substance and detail","Keep going — consistency beats speed","Review quality so far"]},{ph:'Refine',w:.20,t:["Check for gaps — what's missing?","Fill gaps and strengthen weak areas","Polish: make it clean and presentable"]},{ph:'Finish',w:.15,t:["Full review against your original goal","Final check — deliver or submit"]}]
+  generic:[{ph:'Prepare',w:.10,t:["Set up workspace and gather everything you need","Define what the finished result looks like"]},{ph:'Start',w:.15,t:["Complete the first concrete step","Build on it: do the second step"]},{ph:'Build',w:.40,t:["Continue the core work","Go deeper, add substance and detail.","Keep going, consistency beats speed.","Review quality so far"]},{ph:'Refine',w:.20,t:["Check for gaps — what's missing?","Fill gaps and strengthen weak areas","Polish: make it clean and presentable"]},{ph:'Finish',w:.15,t:["Full review against your original goal","Final check — deliver or submit"]}]
 };
 
 function detectType(g,d){
@@ -1181,7 +1313,7 @@ function genTasks(goal,desc,total){
         const idx=Math.floor((i/coreDays)*topics.length);
         pool.push({ph:'Build',text:makeTopicTask(topics[Math.min(idx,topics.length-1)],type)});
       }
-      pool.push({ph:'Deliver',text:'Final review — make it the best it can be, then deliver'});
+      pool.push({ph:'Deliver',text:'Final review. Make it the best it can be, then deliver.'});
     }
   } else {
     bp.forEach(phase=>{const days=Math.max(1,Math.round((phase.w/tw)*total));for(let i=0;i<days;i++)pool.push({ph:phase.ph,text:phase.t[Math.min(i,phase.t.length-1)]});});
@@ -1191,8 +1323,8 @@ function genTasks(goal,desc,total){
   while(pool.length<total){const m=bp[Math.floor(bp.length/2)];pool.push({ph:m.ph,text:m.t[pool.length%m.t.length]});}
 
   const mid=Math.ceil(total/2)-1;
-  if(total>2)pool[mid]={ph:'Review',text:'Halfway check — review everything built so far and fill any gaps'};
-  if(total>1)pool[total-1]={ph:'Deliver',text:'Final review — make it the best it can be, then deliver'};
+  if(total>2)pool[mid]={ph:'Review',text:'Halfway check. Review everything built so far and fill any gaps.'};
+  if(total>1)pool[total-1]={ph:'Deliver',text:'Final review. Make it the best it can be, then deliver.'};
   const TIME_BY_PHASE={
     'Setup':'10–20 min','Prepare':'10–20 min','Plan':'15–25 min','Orientate':'15–20 min',
     'Research':'30–60 min','Foundations':'45–60 min','Foundation':'45–60 min',
@@ -1201,14 +1333,14 @@ function genTasks(goal,desc,total){
     'Submit':'10–20 min','Ship':'20–40 min','Deliver':'10–20 min','Apply':'30–60 min','Finish':'15–30 min'
   };
   const WHY_BY_PHASE={
-    'Setup':'Getting organised now saves time later — this is the foundation everything else builds on.',
+    'Setup':'Getting organised now saves time later. This is the foundation everything else builds on.',
     'Prepare':'A clear starting point removes the biggest barrier: not knowing where to begin.',
     'Plan':'A concrete plan turns a vague goal into a sequence of doable steps.',
     'Orientate':'Knowing the landscape before diving in saves you from going in the wrong direction.',
     'Research':'Good research makes everything that follows faster, clearer, and more credible.',
     'Foundations':'Getting the structure right early means you won\'t have to rebuild it later.',
     'Foundation':'Getting the structure right early means you won\'t have to rebuild it later.',
-    'Draft':'First drafts are never perfect — the goal is to get the ideas out. You\'ll improve it.',
+    'Draft':'First drafts are never perfect. The goal is to get the ideas out. You\'ll improve it.',
     'Build':'This is the core work. Each session here moves the project measurably forward.',
     'Depth':'Going deeper on each topic is where real understanding (and quality) gets built.',
     'Review':'Reviewing your work at this stage catches problems while there\'s still time to fix them.',
@@ -1218,7 +1350,7 @@ function genTasks(goal,desc,total){
     'Submit':'Almost there. A final check before delivering protects you from avoidable last-minute errors.',
     'Ship':'Shipping is a skill. A clean final check ensures your work lands well.',
     'Deliver':'This is what the whole project has been building toward. Make it count.',
-    'Apply':'Applying knowledge is where it actually becomes yours — and where the real value is created.',
+    'Apply':'Applying knowledge is where it actually becomes yours, and where the real value is created.',
     'Finish':'Crossing the finish line is rarer than you think. You\'re nearly there.'
   };
   return pool.map((p,i)=>({
@@ -1343,7 +1475,7 @@ function archiveProj(pid){
   CUR_PROJ=active[0]?.id||null;save();renderSbProjs();
   if(!active.length){$('topTabs').classList.remove('show');$('mobNav').style.display='none';showScreen('s-welcome');}
   else nav('today');
-  toast('Archived — work is safe.');
+  toast('Archived. Your work is safe.');
 }
 function setSwitcher(id,cb){
   const w=$(id);if(!w)return;w.innerHTML='';
@@ -1432,6 +1564,19 @@ function renderToday(){
   }
 
   renderLists(p,cur);initWP(p,cur);
+  // Welcome preview on very first load
+  const wpPrev=$('welcomePreview');
+  if(wpPrev&&done===0&&cur===1&&!localStorage.getItem('tb_pwp_'+p.id)){
+    localStorage.setItem('tb_pwp_'+p.id,'1');
+    const upcoming=p.tasks.slice(0,3);
+    const titleEl=$('wpPrevTitle');
+    const subEl=$('wpPrevSub');
+    const tasksEl=$('wpPrevTasks');
+    if(titleEl)titleEl.textContent='Your plan is ready \u2014 start with today\'s task.';
+    if(subEl)subEl.textContent=p.total+' tasks across '+p.total+' days. Here\'s a preview:';
+    if(tasksEl)tasksEl.innerHTML=upcoming.map(t=>'<div class="wp-prev-task"><span class="wp-prev-day">Day '+t.day+'</span><span>'+esc(t.text)+'</span></div>').join('');
+    wpPrev.style.display='block';
+  }
 }
 function renderLists(p,cur){
   const done=p.tasks.filter(x=>x.done).slice().reverse().slice(0,6);
@@ -1459,8 +1604,8 @@ function skipDay(){
     const wk=ds(new Date(TODAY.getFullYear(),TODAY.getMonth(),TODAY.getDate()-((TODAY.getDay()+6)%7)));
     if(!p.skipsThisWeek)p.skipsThisWeek={};
     p.skipsThisWeek[wk]=(p.skipsThisWeek[wk]||0)+1;
-    if(p.skipsThisWeek[wk]>1){p.streak=0;toast('Streak lost — more than 1 skip this week.');}
-    else toast('1 free skip used this week — streak safe ✓');
+    if(p.skipsThisWeek[wk]>1){p.streak=0;toast('Streak lost. More than 1 skip this week.');}
+    else toast('1 free skip used this week, streak safe ✓');
   } else toast('Day skipped.');
   p.tasks[cur-1].skipped=true;save();
   if(p.tasks.every(t=>t.done||t.skipped))showFinish(p);else renderToday();
@@ -1500,7 +1645,7 @@ function wpBtnUpdate(pid,cur){
   else{btn.classList.remove('saved');btn.textContent='Save to document';}
 }
 function wpSave(silent=false){
-  const text=$('wpArea').value.trim();if(!text){if(!silent)toast('Nothing to save — write something first','warn');return;}
+  const text=$('wpArea').value.trim();if(!text){if(!silent)toast('Nothing to save. Write something first.','warn');return;}
   const p=getProj();if(!p)return;const cur=curDay(p);const w=getW(p.id);const k=String(cur-1);
   w[k]={text,dayIndex:cur-1,dayNum:cur,taskText:p.tasks[cur-1]?.text||'',phase:p.tasks[cur-1]?.phase||'',savedAt:new Date().toISOString()};
   saveW(p.id,w);wpBtnUpdate(p.id,cur);
@@ -1562,7 +1707,7 @@ function exportPdf(){
   const col=COLORS[p.ci||0];const dateStr=new Date().toLocaleDateString('en-GB',{year:'numeric',month:'long',day:'numeric'});
   const html=`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${esc(p.goal)}</title><style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Helvetica Neue',Arial,sans-serif;font-size:11pt;color:#111;background:#fff}.cover{padding:60px 64px 36px;border-bottom:2px solid #111;margin-bottom:36px}.cl{font-size:9pt;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#888;margin-bottom:14px}.ct{font-size:28pt;font-weight:700;line-height:1.1;color:#111;margin-bottom:18px}.cm{font-size:9pt;color:#666;margin-right:20px}.cm strong{color:#111}.body{padding:0 64px 64px}.entry{margin-bottom:32px;padding-bottom:32px;border-bottom:1px solid #e5e5e5}.entry:last-child{border-bottom:none}.em{display:flex;align-items:center;gap:9px;margin-bottom:8px}.ed{font-size:8.5pt;font-weight:700;text-transform:uppercase;color:${col};background:${col}22;border-radius:4px;padding:2px 8px}.ep{font-size:8.5pt;color:#888;background:#f5f5f5;border-radius:4px;padding:2px 8px}.et{font-size:9pt;color:#888;margin-bottom:9px;font-style:italic;border-left:2px solid #e5e5e5;padding-left:9px}.ec{font-size:11pt;line-height:1.8;color:#1a1a1a;white-space:pre-wrap}.footer{text-align:center;padding:18px;font-size:8pt;color:#bbb;border-top:1px solid #eee;margin-top:36px}@media print{.entry{page-break-inside:avoid}}</style></head><body><div class="cover"><div class="cl">Taskbit — Live Document</div><div class="ct">${esc(p.goal)}</div><div style="display:flex;flex-wrap:wrap"><span class="cm"><strong>${entries.length}</strong> entries</span><span class="cm"><strong>${tw.toLocaleString()}</strong> words</span><span class="cm">Exported <strong>${dateStr}</strong></span></div></div><div class="body">${entries.map(e=>`<div class="entry"><div class="em"><span class="ed">Day ${e.dayNum}</span>${e.phase?`<span class="ep">${e.phase}</span>`:''}</div><div class="et">${esc(e.taskText)}</div><div class="ec">${esc(e.text)}</div></div>`).join('')}</div><div class="footer">Generated by Taskbit — one task at a time.</div></body></html>`;
   const win=window.open('','_blank','width=900,height=700');
-  if(!win){toast('Popup blocked — allow popups to export PDF','warn');return;}
+  if(!win){toast('Popup blocked. Please allow popups to export PDF.','warn');return;}
   win.document.write(html);win.document.close();win.focus();setTimeout(()=>win.print(),800);
 }
 function dlFinCheck(){if(!requireSerious('Downloading your work requires Serious mode.'))return;const p=getProj();dlFile((p?.goal||'project').toLowerCase().replace(/\s+/g,'-')+'.txt',$('outTa').value);}
@@ -1657,12 +1802,112 @@ function nav(v){
   setNav(v);
   const active=activeProjs();
   if(v==='upgrade'){showScreen('s-upgrade');return;}
-  if(!active.length){showSetup();if(v!=='today')toast('Create a plan first','warn');return;}
+  if(!active.length){if(hasPlan())startOnboarding();else showScreen('s-welcome');if(v!=='today')toast('Create a plan first','warn');return;}
   if(!CUR_PROJ||!active.find(p=>p.id===CUR_PROJ)){CUR_PROJ=active[0].id;save();}
   if(v==='today'){renderToday();showScreen('s-today');}
   else if(v==='tasks'){renderTasks();showScreen('s-tasks');}
   else if(v==='document'){renderDoc();showScreen('s-document');}
   else if(v==='calendar'){renderCal();showScreen('s-calendar');}
+}
+
+/* ══ ONBOARDING ══ */
+let _obDays = null;
+
+function startOnboarding(){
+  setPlan('chill');
+  const f=$('appFooter');if(f)f.classList.add('show');
+  const g=$('obGoal');if(g)g.value='';
+  const d=$('obDesc');if(d)d.value='';
+  const dl=$('obDeadline');
+  if(dl)dl.valueAsDate=new Date(TODAY.getTime()+7*86400000);
+  _obDays=7;
+  document.querySelectorAll('#obChips .chip').forEach(ch=>ch.classList.remove('on'));
+  const def=document.querySelector('#obChips .chip:nth-child(3)');if(def)def.classList.add('on');
+  ['ob1','ob2','ob3'].forEach(id=>{const el=$(id);if(el)el.style.display=id==='ob1'?'':'none';});
+  const ge=$('obGoalErr');if(ge)ge.classList.remove('show');
+  const de=$('obDaysErr');if(de)de.classList.remove('show');
+  // Remove any leftover timeline from ob3
+  const ob3=$('ob3');
+  if(ob3){const prev=ob3.previousElementSibling;if(prev&&prev.classList.contains('ob-timeline'))prev.remove();}
+  showScreen('s-onboard');
+  setTimeout(()=>{const g=$('obGoal');if(g)g.focus();},80);
+}
+
+function obPickDays(n,el){
+  _obDays=n;
+  document.querySelectorAll('#obChips .chip').forEach(ch=>ch.classList.remove('on'));
+  el.classList.add('on');
+  const d=new Date(TODAY.getTime()+n*86400000);
+  const dl=$('obDeadline');if(dl)dl.valueAsDate=d;
+  const de=$('obDaysErr');if(de)de.classList.remove('show');
+}
+
+function obNext(step){
+  if(step===1){
+    const goal=$('obGoal').value.trim();
+    const ge=$('obGoalErr');
+    if(!goal){if(ge)ge.classList.add('show');$('obGoal').focus();return;}
+    if(ge)ge.classList.remove('show');
+    $('ob1').style.display='none';
+    $('ob2').style.display='';
+  } else if(step===2){
+    const dl=$('obDeadline').value;
+    if(dl){
+      const d=new Date(dl+'T12:00:00');
+      const diff=Math.round((d-TODAY)/86400000);
+      _obDays=Math.max(1,diff+1);
+    }
+    const de=$('obDaysErr');
+    if(!_obDays||_obDays<1){if(de)de.classList.add('show');return;}
+    if(de)de.classList.remove('show');
+    const goal=$('obGoal').value.trim();
+    const descEl=$('obDesc');
+    const desc=descEl?descEl.value.trim():'';
+    const preview=genTasks(goal,desc||goal,_obDays);
+    const previewEl=$('obPreview');
+    const shown=preview.slice(0,3);
+    const endDs=addD(TDS,_obDays-1);
+    previewEl.innerHTML=shown.map((t,i)=>
+      '<div class="ob-task-prev">'+
+        '<div class="ob-task-num">'+(i+1)+'</div>'+
+        '<div class="ob-task-body">'+
+          '<div class="ob-task-ph">'+esc(t.phase)+'</div>'+
+          '<div class="ob-task-txt">'+esc(t.text)+'</div>'+
+          (t.estimate?'<div class="ob-task-est">&#9200; '+esc(t.estimate)+'</div>':'')+
+        '</div>'+
+      '</div>'
+    ).join('')+(preview.length>3?'<div class="ob-more">+ '+(preview.length-3)+' more tasks across '+_obDays+' days</div>':'');
+    const subEl=$('ob3Sub');
+    if(subEl)subEl.textContent=_obDays+' days · '+preview.length+' tasks · starts today';
+    // Add timeline above preview
+    const existing=$('ob3').previousElementSibling;
+    if(existing&&existing.classList.contains('ob-timeline'))existing.remove();
+    const tl=document.createElement('div');tl.className='ob-timeline';
+    tl.innerHTML='<div class="ob-timeline-d"></div>Day 1 — '+fmtD(TDS)+' &nbsp;→&nbsp; Day '+_obDays+' — '+fmtD(endDs)+' &nbsp;·&nbsp; '+preview.length+' daily tasks';
+    $('ob3').before(tl);
+    $('ob2').style.display='none';
+    $('ob3').style.display='';
+  }
+}
+
+function obBack(step){
+  if(step===2){$('ob2').style.display='none';$('ob1').style.display='';}
+  else if(step===3){
+    const existing=$('ob3').previousElementSibling;
+    if(existing&&existing.classList.contains('ob-timeline'))existing.remove();
+    $('ob3').style.display='none';$('ob2').style.display='';
+  }
+}
+
+function obCommit(){
+  const goal=$('obGoal').value.trim();
+  const descEl=$('obDesc');
+  const desc=(descEl?descEl.value.trim():'')||goal;
+  const dl=$('obDeadline').value;
+  if(dl){const d=new Date(dl+'T12:00:00');const diff=Math.round((d-TODAY)/86400000);_obDays=Math.max(1,diff+1);}
+  if(addProjectFromValues({goal,desc,days:_obDays,startDate:TDS,color:0})){
+    showApp();
+  }
 }
 
 /* ══ LEGAL ══ */
