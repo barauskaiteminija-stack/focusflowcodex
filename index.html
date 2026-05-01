@@ -117,8 +117,24 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
 .hero-sub{font-size:clamp(15px,1.8vw,19px);color:var(--ink2);line-height:1.75;max-width:540px;margin:0 auto 38px;font-weight:500;text-align:center}
 .hero-hl{color:var(--ink);font-weight:700}
 .hero-trust-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:10px}
+.hero-example{background:var(--sur);border:1px solid var(--b2);border-radius:var(--rl);padding:14px 20px;margin:0 auto 28px;max-width:680px;width:100%}
+.he-label{font-size:10px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--ink3);margin-bottom:10px}
+.he-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center}
+.he-item{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:500;color:var(--ink2);background:var(--sur2);border:1px solid var(--b1);border-radius:8px;padding:5px 10px;gap:6px}
+.he-dot{width:7px;height:7px;border-radius:50%;background:var(--ac);flex-shrink:0}
+.he-d1{background:#22C55E}.he-d2{background:#F59E0B}.he-d3{background:#6C63FF}
+.he-tag{font-size:10px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--ink3)}
+.he-arr{width:14px;height:14px;color:var(--ink3);flex-shrink:0}
+@media(max-width:600px){.he-arr{display:none}.he-row{gap:6px}}
 .htb-item{font-size:12px;font-weight:500;color:var(--ink3)}
 .htb-dot{color:var(--ink3);font-size:12px}
+.hero-steps{display:flex;align-items:flex-start;gap:0;margin:0 auto 24px;max-width:640px;width:100%}
+.hs-item{flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 8px}
+.hs-num{width:36px;height:36px;border-radius:50%;background:var(--ac);color:#fff;font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-bottom:8px;box-shadow:0 0 12px var(--acg)}
+.hs-t{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:3px;letter-spacing:-.2px}
+.hs-s{font-size:11px;color:var(--ink3);line-height:1.45}
+.hs-line{width:40px;height:1px;background:var(--b2);margin-top:18px;flex-shrink:0}
+@media(max-width:600px){.hs-line{display:none}.hero-steps{flex-wrap:wrap;gap:16px;justify-content:center}.hs-item{min-width:130px}}
 .hero-features{display:flex;gap:10px;margin-top:28px;flex-wrap:wrap;justify-content:center}
 .hero-feat{display:flex;align-items:center;gap:6px;background:var(--sur);border:1px solid var(--b2);border-radius:99px;padding:7px 16px;font-size:13px;font-weight:500;color:var(--ink2)}
 .hero-feat-dot{width:6px;height:6px;border-radius:50%;background:var(--gr)}
@@ -280,7 +296,7 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
 .today-phase{display:inline-block;background:var(--pac-bg,var(--ac-bg));border:1px solid var(--pac-bd,rgba(108,99,255,.18));color:var(--pac,var(--acl));font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;border-radius:99px;padding:2px 9px;margin-bottom:9px}
 [data-theme="light"] .today-phase{color:var(--pac,var(--ac))}
 .today-txt{font-size:19px;font-weight:600;line-height:1.3;color:var(--ink);margin-bottom:6px;letter-spacing:-.3px}
-.today-hint{font-size:12px;color:var(--ink3)}
+.today-microcopy{font-size:12px;font-weight:600;color:var(--ink3);font-style:italic;margin-top:4px}
 .today-estimate{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:var(--ink3);background:var(--sur2);border:1px solid var(--b2);border-radius:99px;padding:2px 9px}
 .today-why{font-size:12px;color:var(--ink3);line-height:1.55;margin-top:8px;padding:8px 11px;background:var(--sur2);border-left:2px solid var(--pac,var(--ac));border-radius:0 6px 6px 0;display:none}
 .today-why.show{display:block}
@@ -601,14 +617,33 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
     <!-- WELCOME / PRICING -->
     <div class="screen hero-screen" id="s-welcome">
       <div class="hero-eyebrow"><div class="hero-eyebrow-d"></div>The daily work planner</div>
-      <h1 class="hero-h1">The only way to finish<span class="hi">is to start today.</span></h1>
-      <p class="hero-sub">Describe your goal, get a daily plan, and actually complete it. <span class="hero-hl">No overwhelm. No guessing. Just today's task.</span></p>
+      <h1 class="hero-h1">Finish what you start.<span class="hi">One focused task every day.</span></h1>
+      <p class="hero-sub">Turn any goal into a simple daily plan and actually complete it. No overwhelm, no guessing — just <span class="hero-hl">today's task.</span></p>
+      <div class="hero-example">
+        <div class="he-label">How it works</div>
+        <div class="he-row">
+          <div class="he-item"><span class="he-dot"></span><span class="he-tag">Goal</span>Launch a website</div>
+          <svg class="he-arr" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="he-item"><span class="he-dot he-d1"></span><span class="he-tag">Day 1</span>Define structure</div>
+          <svg class="he-arr" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="he-item"><span class="he-dot he-d2"></span><span class="he-tag">Day 2</span>Design layout</div>
+          <svg class="he-arr" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="he-item"><span class="he-dot he-d3"></span><span class="he-tag">Day 3</span>Build homepage</div>
+        </div>
+      </div>
       <div class="hero-trust-bar">
         <span class="htb-item">No tracking. No ads.</span>
         <span class="htb-dot">·</span>
         <span class="htb-item">Built by an independent developer</span>
         <span class="htb-dot">·</span>
         <span class="htb-item">🔐 Secure payments via Stripe</span>
+      </div>
+      <div class="hero-steps">
+        <div class="hs-item"><div class="hs-num">1</div><div class="hs-t">Describe your goal</div><div class="hs-s">Tell Taskbit what you need to finish</div></div>
+        <div class="hs-line"></div>
+        <div class="hs-item"><div class="hs-num">2</div><div class="hs-t">Get your daily plan</div><div class="hs-s">One focused task per day, auto-generated</div></div>
+        <div class="hs-line"></div>
+        <div class="hs-item"><div class="hs-num">3</div><div class="hs-t">Complete &amp; track</div><div class="hs-s">Mark done, build a streak, finish the goal</div></div>
       </div>
       <div class="pricing-row">
         <!-- CHILL -->
@@ -624,7 +659,8 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
             <li><span>✓</span> Calendar tracking</li>
             <li><span>✓</span> Skip anytime</li>
           </ul>
-          <button class="pc-btn" onclick="startOnboarding()">Start free, no payment needed</button>
+          <button class="pc-btn" onclick="startOnboarding()" style="font-size:15px;padding:14px">👉 Start my plan, it's free</button>
+          <div style="font-size:11px;color:var(--ink3);text-align:center;margin-top:10px">No payment needed. One task a day = real progress.</div>
         </div>
         <!-- SERIOUS -->
         <div class="price-card featured">
@@ -635,15 +671,16 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
           <div class="pc-desc">For people who actually want to finish. Get a smarter plan, stay on track, and see your work build into something real.</div>
           <ul class="pc-features">
             <li><span>✓</span> Multiple projects at once</li>
-            <li><span>✓</span> Smarter task breakdown</li>
-            <li><span>✓</span> Plan adjusts if you fall behind</li>
-            <li><span>✓</span> Stay consistent and accountable</li>
-            <li><span>✓</span> Export your finished work</li>
+            <li><span>✓</span> Smarter task breakdown with phases</li>
+            <li><span>✓</span> Auto-reschedule when you fall behind</li>
+            <li><span>✓</span> Stronger streak accountability</li>
+            <li><span>✓</span> Export finished work as PDF</li>
           </ul>
           <div class="pc-subscription-note">
-  <strong>€2.99/month · Recurring subscription · Cancel anytime</strong><br>Billed monthly by Stripe until cancelled. 30-day money-back guarantee — email taskbit.support@gmail.com if not satisfied.
+  <strong>€2.99/month · Recurring subscription · Cancel anytime</strong><br>Billed monthly by Stripe until cancelled. 30-day money-back guarantee, email taskbit.support@gmail.com if not satisfied.
 </div>
-          <button class="pc-btn" onclick="openCheckout()">🔒 Start Serious, €2.99/mo</button>
+          <button class="pc-btn" onclick="openCheckout()" style="font-size:15px;padding:14px">🔒 Unlock Serious, €2.99/mo</button>
+          <div style="text-align:center;font-size:11px;color:var(--acl);margin-top:10px;font-weight:600">Your finishing system. Worth it.</div>
           <div class="pc-trust-row">
             <span class="pc-trust-item">🛡️ 30-day refund</span>
             <span class="pc-trust-item">🔐 Stripe secure</span>
@@ -660,7 +697,7 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
         <div class="ob-step" id="ob1">
           <div class="ob-step-num">Step 1 of 3</div>
           <div class="ob-q">What do you want to finish?</div>
-          <div class="ob-hint">Give it a clear name. This becomes your project goal.</div>
+          <div class="ob-hint">Give it a clear name. This becomes your project goal. <span style="color:var(--acl);font-weight:600">One task today = real progress.</span></div>
           <input class="f-in ob-input" id="obGoal" type="text" placeholder="e.g. Internship report, Portfolio site, Study for exam…" maxlength="80" autocomplete="off">
           <div class="ob-error" id="obGoalErr">Please describe what you want to finish.</div>
           <div class="ob-desc-wrap">
@@ -669,7 +706,7 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
             <div class="f-hint">Bullet points become daily tasks. A word count helps set targets.</div>
           </div>
           <div class="ob-actions">
-            <button class="btn-p ob-next" onclick="obNext(1)">Next — set your deadline <svg viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 7.5h9M8 3.5l4 4-4 4"/></svg></button>
+            <button class="btn-p ob-next" onclick="obNext(1)">Next, set your deadline <svg viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 7.5h9M8 3.5l4 4-4 4"/></svg></button>
           </div>
         </div>
         <!-- STEP 2 -->
@@ -709,9 +746,10 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
           <div class="ob-preview-fade"></div>
           <div class="ob-actions" style="margin-top:20px">
             <button class="btn-ghost" onclick="obBack(3)" style="font-size:13px;padding:10px 18px">← Back</button>
-            <button class="btn-p" onclick="obCommit()" style="font-size:15px;padding:13px 32px">Start my plan — it's free <svg viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 7.5h9M8 3.5l4 4-4 4"/></svg></button>
+            <button class="btn-p" onclick="obCommit()" style="font-size:15px;padding:14px 36px;box-shadow:0 0 28px var(--acg)">👉 Start my plan <svg viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 7.5h9M8 3.5l4 4-4 4"/></svg></button>
           </div>
-          <div style="margin-top:12px;font-size:12px;color:var(--ink3);text-align:center">No payment needed. Your first project is always free.</div>
+          <div style="margin-top:14px;font-size:13px;color:var(--ink2);text-align:center;font-weight:500">No payment needed. Your first project is always free.</div>
+          <div style="margin-top:6px;font-size:12px;color:var(--ink3);text-align:center">You're closer than you think.</div>
         </div>
       </div>
     </div>
@@ -720,8 +758,9 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
     <div class="screen" id="s-upgrade">
       <div style="max-width:760px;margin:0 auto">
         <div class="kicker"><div class="kicker-d"></div>Plans</div>
-        <div class="sec-h" style="margin-bottom:6px">Choose your plan</div>
-        <p style="font-size:14px;color:var(--ink2);margin-bottom:32px">Upgrade anytime. Cancel anytime.</p>
+        <div class="sec-h" style="margin-bottom:6px">Ready to go further?</div>
+        <p style="font-size:14px;color:var(--ink2);margin-bottom:8px">Serious mode is your finishing system. Multiple projects, smarter plans, and automatic rescheduling when life happens.</p>
+        <p style="font-size:13px;color:var(--ink3);margin-bottom:32px">Cancel anytime. 30-day money-back guarantee. No risk.</p>
         <div class="pricing-row" style="margin-top:0">
           <div class="price-card">
             <div class="pc-tag">Free</div>
@@ -742,18 +781,19 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
             <div class="pc-name">Serious</div>
             <div class="pc-price">€2.99/month <span style="font-size:11px;font-weight:500;opacity:.75">(recurring)</span></div>
             <div class="pc-price-sub">Less than €0.10/day · Cancel anytime</div>
-            <div class="pc-desc">For people who actually want to finish. Get a smarter plan, stay on track, and see your work build into something real.</div>
+            <div class="pc-desc">For people who actually want to finish. Smarter plans, auto-rescheduling when you miss a day, and everything you need to see it through.</div>
             <ul class="pc-features">
               <li><span>✓</span> Multiple projects at once</li>
-              <li><span>✓</span> Smarter task breakdown</li>
-              <li><span>✓</span> Plan adjusts if you fall behind</li>
-              <li><span>✓</span> Stay consistent and accountable</li>
-              <li><span>✓</span> Export your finished work</li>
+              <li><span>✓</span> Smarter task breakdown with phases</li>
+              <li><span>✓</span> Auto-reschedule when you fall behind</li>
+              <li><span>✓</span> Stronger streak accountability</li>
+              <li><span>✓</span> Export finished work as PDF</li>
             </ul>
             <div class="pc-subscription-note">
-  <strong>€2.99/month · Recurring subscription · Cancel anytime</strong><br>Billed monthly by Stripe until cancelled. 30-day money-back guarantee — email taskbit.support@gmail.com if not satisfied.
+  <strong>€2.99/month · Recurring subscription · Cancel anytime</strong><br>Billed monthly by Stripe until cancelled. 30-day money-back guarantee, email taskbit.support@gmail.com if not satisfied.
 </div>
-            <button class="pc-btn" id="seriousPlanBtn" onclick="openCheckout()">🔒 Start Serious, €2.99/mo</button>
+            <button class="pc-btn" id="seriousPlanBtn" onclick="openCheckout()" style="font-size:15px;padding:14px">🔒 Unlock Serious, €2.99/mo</button>
+            <div style="font-size:12px;color:var(--acl);text-align:center;margin-top:10px;font-weight:500">Your finishing system.</div>
             <div class="pc-trust-row">
               <span class="pc-trust-item">🛡️ 30-day refund</span>
               <span class="pc-trust-item">🔐 Stripe secure</span>
@@ -835,7 +875,7 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
       </div>
       <div class="banner" id="urgencyBanner"></div>
       <div class="banner" id="behindBanner">
-        <span>⚠️ You're falling behind. Rebalance your remaining tasks?</span>
+        <span>⚠️ You're behind. Let's recover today — one task at a time.</span>
         <button class="banner-act-ac" onclick="rebalance()">Rebalance</button>
       </div>
       <div class="dash-top">
@@ -857,6 +897,7 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
             </div>
             <div class="today-txt" id="todayTxt">—</div>
             <div class="today-why" id="todayWhy"></div>
+            <div class="today-microcopy" id="todayMicro">One task today = real progress.</div>
           </div>
           <div class="today-foot">
             <button class="btn-done" id="btnDone" onclick="markDone()">Mark as done ✓</button>
@@ -874,7 +915,7 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
             <div class="prog-track"><div class="prog-bar" id="progBar" style="width:0%"></div></div>
           </div>
           <div class="streak-msg" id="streakMsg"></div>
-          <div class="auto-row"><div class="auto-tag">Auto-saved</div><div class="auto-txt" id="autoTxt">Complete your first task.</div></div>
+          <div class="auto-row"><div class="auto-tag">Progress</div><div class="auto-txt" id="autoTxt">Complete your first task.</div></div>
         </div>
       </div>
       <div class="lists-2">
@@ -1511,6 +1552,10 @@ function renderToday(){
   const estEl=$('todayEstimate');
   if(estEl)estEl.textContent=t.estimate?'\u23F1 '+t.estimate:'';
 
+  // Motivational microcopy under task
+  const microLines=["One task today = real progress.","You're closer than you think.","Let's finish this.","Consistency beats perfection.","Small steps. Real results.","Today's task matters."];
+  const microEl=$('todayMicro');
+  if(microEl)microEl.textContent=microLines[cur%microLines.length];
   // Why hint
   const whyEl=$('todayWhy');
   if(whyEl){whyEl.textContent=t.hint||'This step moves your project forward.';whyEl.classList.add('show');}
@@ -1593,9 +1638,9 @@ function markDone(){
   if(!p.tasks[cur-1]||p.tasks[cur-1].done||p.tasks[cur-1].skipped)return;
   p.tasks[cur-1].done=true;p.streak++;save();
   btn.classList.add('done');btn.textContent='✓ Completed';
-  const feedbacks=['Nice. That\u2019s progress.','Done. One step closer.','Good. Keep going.','That counts. Really.','Progress made. See you tomorrow.'];
-  const fb=feedbacks[Math.floor(Math.random()*feedbacks.length)];
-  setTimeout(()=>{if(p.tasks.every(t=>t.done||t.skipped))showFinish(p);else{renderToday();toast(fb+' \uD83D\uDD25','ok');}},700);
+  const feedbacks=['Nice. That\u2019s progress.','Done. One step closer.','Good. Keep going.','That counts. Really.','Progress made.'];
+  const fb=p.streak>=3?`${p.streak} days in a row \uD83D\uDD25 Keep it going.`:feedbacks[Math.floor(Math.random()*feedbacks.length)]+' \uD83D\uDD25';
+  setTimeout(()=>{if(p.tasks.every(t=>t.done||t.skipped))showFinish(p);else{renderToday();toast(fb,'ok');}},700);
 }
 function skipDay(){
   const p=getProj();if(!p)return;const cur=curDay(p);
