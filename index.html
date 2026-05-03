@@ -3246,9 +3246,10 @@ async function syncToCloud(){
     const data = {
       user_id: _sbUser.id,
       projs_json: JSON.stringify({v:VER,projs:PROJS,cur:CUR_PROJ}),
-      updated_at: new Date().toISOString()
+      updated_at: new Date().toISOString(),
+      // Store Pro status in cloud so it survives across devices/sessions
+      is_pro: localStorage.getItem('taskbit_pro')==='true'
     };
-    // Get all writing entries
     const writings = {};
     PROJS.forEach(p=>{
       const w = getW(p.id);
@@ -3267,6 +3268,11 @@ async function loadFromCloud(){
   try{
     const {data, error} = await _sb.from('taskbit_data').select('*').eq('user_id',_sbUser.id).single();
     if(error||!data) return false;
+    // Restore Pro status from cloud — this persists across devices and sessions
+    if(data.is_pro===true){
+      localStorage.setItem('taskbit_pro','true');
+      localStorage.setItem('tb_plan','serious');
+    }
     if(data.projs_json){
       const p = JSON.parse(data.projs_json);
       if(p&&p.v===VER&&Array.isArray(p.projs)&&p.projs.length>0){
