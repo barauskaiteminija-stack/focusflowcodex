@@ -299,7 +299,8 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
 .auth-check-ico{font-size:40px;text-align:center;margin-bottom:16px}
 .auth-legal{font-size:11px;color:var(--ink3);text-align:center}
 /* User badge in topbar */
-.user-badge{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink3);cursor:pointer;padding:4px 8px;border-radius:6px;transition:background var(--tx)}
+.user-signin-btn{background:var(--ac);color:#fff;border:none;border-radius:99px;font-family:var(--f);font-size:12px;font-weight:600;padding:5px 14px;cursor:pointer;transition:all var(--tx)}
+.user-signin-btn:hover{background:var(--acl)}
 .user-badge:hover{background:var(--sur2)}
 .user-badge-dot{width:7px;height:7px;border-radius:50%;background:var(--gr);flex-shrink:0}
 .user-badge-dot.offline{background:var(--ink3)}
@@ -778,6 +779,7 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
       <div class="user-badge-dot" id="userBadgeDot"></div>
       <span id="userBadgeEmail"></span>
     </div>
+    <button class="user-signin-btn" id="userSigninBtn" onclick="showSignIn()" style="display:none" title="Sign in to sync across devices">Sign in</button>
     <button class="plan-badge" id="planBadge" onclick="nav('upgrade')" style="display:none"></button>
     <button class="icon-btn" onclick="toggleTheme()" title="Toggle theme">
       <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><circle cx="7.5" cy="7.5" r="3"/><path d="M7.5 1v1M7.5 13v1M1 7.5h1M13 7.5h1M3 3l.7.7M11.3 11.3l.7.7M11.3 3l-.7.7M3 11.3l-.7.7"/></svg>
@@ -3215,17 +3217,29 @@ function useWithoutAccount(){
   bootApp();
 }
 
+function showSignIn(){
+  localStorage.removeItem('tb_no_account');
+  showScreen('s-auth');
+}
+
 function updateUserBadge(user){
   const badge = document.getElementById('userBadge');
   const email = document.getElementById('userBadgeEmail');
   const dot = document.getElementById('userBadgeDot');
+  const signinBtn = document.getElementById('userSigninBtn');
   if(!badge) return;
   if(user){
     badge.style.display = 'flex';
     if(email) email.textContent = user.email.split('@')[0];
     if(dot) dot.className = 'user-badge-dot';
+    if(signinBtn) signinBtn.style.display = 'none';
   } else {
     badge.style.display = 'none';
+    // Show sign-in button only when app is active (not on welcome/auth screen)
+    if(signinBtn){
+      const appActive = document.getElementById('appShell') && document.getElementById('appShell').classList.contains('show');
+      signinBtn.style.display = appActive ? 'inline-block' : 'none';
+    }
   }
 }
 
@@ -3567,6 +3581,11 @@ function bootApp(cloudLoaded){
       showApp();renderSbProjs();renderToday();showScreen('s-today');setNav('today');
     } else {showScreen('s-welcome');setNav('today');}
   } else {showScreen('s-welcome');setNav('today');}
+  // Show sign-in button if not signed in with Supabase
+  if(!_sbUser){
+    const signinBtn=document.getElementById('userSigninBtn');
+    if(signinBtn)signinBtn.style.display='inline-block';
+  }
   // Show payment success banner if returning from Stripe
   if(window._pendingPaySuccess){
     window._pendingPaySuccess=false;
