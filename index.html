@@ -1570,10 +1570,17 @@ function checkStripeReturn(){
   if(isPaid){
     localStorage.setItem('taskbit_pro','true');
     localStorage.setItem('tb_plan','serious');
+    try{sessionStorage.setItem('tb_pro_session','true');}catch(e){}
     window.history.replaceState({},'',window.location.pathname);
-    // Store flag so we show banner after boot completes
     window._pendingPaySuccess=true;
   }
+  // Restore from sessionStorage if localStorage was cleared mid-session
+  try{
+    if(sessionStorage.getItem('tb_pro_session')==='true'){
+      localStorage.setItem('taskbit_pro','true');
+      localStorage.setItem('tb_plan','serious');
+    }
+  }catch(e){}
 }
 function showPaymentSuccess(){
   const existing=document.getElementById('paySuccessBanner');if(existing)existing.remove();
@@ -1589,7 +1596,7 @@ function showPaymentSuccess(){
     <div style="font-size:18px;font-weight:700;margin-bottom:5px;letter-spacing:-.3px">You're now on Pro plan!</div>
     <div style="font-size:13px;opacity:.9;margin-bottom:6px;line-height:1.55">All features are unlocked. Multiple projects,<br>smarter plans, PDF export, and more.</div>
     <div style="font-size:11px;opacity:.7;margin-bottom:16px">Subscription active. Manage billing anytime via Stripe.</div>
-    <button onclick="document.getElementById('paySuccessBanner').remove();showSetup();" style="background:rgba(255,255,255,.22);border:1.5px solid rgba(255,255,255,.4);color:#fff;border-radius:9px;padding:9px 22px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--f);transition:background .15s" onmouseover="this.style.background='rgba(255,255,255,.32)'" onmouseout="this.style.background='rgba(255,255,255,.22)'">Start your first project →</button>
+    <button onclick="document.getElementById('paySuccessBanner').remove();setPlan('serious');updatePlanUI();startOnboarding();" style="background:rgba(255,255,255,.22);border:1.5px solid rgba(255,255,255,.4);color:#fff;border-radius:9px;padding:9px 22px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--f);transition:background .15s" onmouseover="this.style.background='rgba(255,255,255,.32)'" onmouseout="this.style.background='rgba(255,255,255,.22)'">Start your first project →</button>
   `;
   document.body.appendChild(banner);
   setTimeout(()=>{
