@@ -170,6 +170,10 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
 .hero-pro-link{background:none;border:none;font-family:var(--f);font-size:12px;color:var(--ink3);cursor:pointer;transition:color var(--tx);padding:0}
 .hero-pro-link:hover{color:var(--acl)}
 [data-theme="light"] .hero-pro-link:hover{color:var(--ac)}
+.hero-signin-row{font-size:13px;color:var(--ink3);display:flex;align-items:center;gap:6px}
+.hero-signin-link{background:none;border:none;font-family:var(--f);font-size:13px;font-weight:600;color:var(--acl);cursor:pointer;padding:0;transition:opacity var(--tx)}
+.hero-signin-link:hover{opacity:.75}
+[data-theme="light"] .hero-signin-link{color:var(--ac)}
 .hero-feat{display:flex;align-items:center;gap:6px;background:var(--sur);border:1px solid var(--b2);border-radius:99px;padding:7px 16px;font-size:13px;font-weight:500;color:var(--ink2)}
 .hero-feat-dot{width:6px;height:6px;border-radius:50%;background:var(--gr)}
 
@@ -293,9 +297,11 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
 .auth-err{font-size:12px;color:var(--rd);margin-top:6px;min-height:18px}
 .auth-divider{display:flex;align-items:center;gap:10px;margin:18px 0;color:var(--ink3);font-size:12px}
 .auth-divider::before,.auth-divider::after{content:"";flex:1;height:1px;background:var(--b2)}
-.auth-skip{background:none;border:none;font-family:var(--f);font-size:13px;color:var(--ink3);cursor:pointer;padding:8px 0;transition:color var(--tx);display:block;width:100%;text-align:center}
-.auth-skip:hover{color:var(--ink)}
-.auth-skip-note{font-size:11px;color:var(--ink3);text-align:center;margin-top:4px;line-height:1.4}
+.auth-benefits{margin-top:16px;display:flex;flex-direction:column;gap:8px}
+.auth-benefit{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink2)}
+.auth-benefit span{color:var(--gr);font-weight:700;flex-shrink:0}
+.auth-data-warning{display:flex;align-items:flex-start;gap:8px;background:var(--or-bg);border:1px solid rgba(251,146,60,.25);border-radius:var(--r);padding:10px 12px;font-size:12px;color:var(--or);line-height:1.5;margin-top:12px}
+.auth-data-warning svg{flex-shrink:0;margin-top:1px;opacity:.8}
 .auth-check-ico{font-size:40px;text-align:center;margin-bottom:16px}
 .auth-legal{font-size:11px;color:var(--ink3);text-align:center}
 /* User badge in topbar */
@@ -779,7 +785,7 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
       <div class="user-badge-dot" id="userBadgeDot"></div>
       <span id="userBadgeEmail"></span>
     </div>
-    <button class="user-signin-btn" id="userSigninBtn" onclick="showSignIn()" style="display:none" title="Sign in to sync across devices">Sign in</button>
+    <button class="user-signin-btn" id="userSigninBtn" onclick="showSignIn()" style="display:none" title="Sign in"></button>
     <button class="plan-badge" id="planBadge" onclick="nav('upgrade')" style="display:none"></button>
     <button class="icon-btn" onclick="toggleTheme()" title="Toggle theme">
       <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><circle cx="7.5" cy="7.5" r="3"/><path d="M7.5 1v1M7.5 13v1M1 7.5h1M13 7.5h1M3 3l.7.7M11.3 11.3l.7.7M11.3 3l-.7.7M3 11.3l-.7.7"/></svg>
@@ -822,15 +828,21 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
         <div class="auth-box" id="authBox">
           <!-- Step 1: enter email -->
           <div id="authStep1">
-            <div class="auth-h">Sign in to sync across devices</div>
-            <div class="auth-s">Enter your email — we'll send you a magic link. No password needed.</div>
+            <div class="auth-h">Welcome to Taskbit</div>
+            <div class="auth-s">Enter your email to get started. We'll send you a magic link — no password needed.</div>
             <input class="f-in auth-email" id="authEmail" type="email" placeholder="your@email.com" autocomplete="email"
               onkeydown="if(event.key==='Enter')sendMagicLink()">
-            <button class="btn-p auth-btn" onclick="sendMagicLink()" id="authSendBtn">Send magic link</button>
+            <button class="btn-p auth-btn" onclick="sendMagicLink()" id="authSendBtn">Continue with email →</button>
             <div class="auth-err" id="authErr"></div>
-            <div class="auth-divider"><span>or</span></div>
-            <button class="auth-skip" onclick="useWithoutAccount()">Continue without an account</button>
-            <div class="auth-skip-note">Your data stays local only — won't sync across devices.</div>
+            <div class="auth-data-warning">
+              <svg width="13" height="13" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="7.5" cy="7.5" r="6"/><path d="M7.5 5v3M7.5 10h.01"/></svg>
+              Without an account your projects are only saved in this browser. Close the tab and your work is gone. Creating an account is free and takes 30 seconds.
+            </div>
+            <div class="auth-benefits">
+              <div class="auth-benefit"><span>✓</span> Free forever for one project</div>
+              <div class="auth-benefit"><span>✓</span> Your progress syncs across all devices</div>
+              <div class="auth-benefit"><span>✓</span> No password — just click the link in your email</div>
+            </div>
           </div>
           <!-- Step 2: check email -->
           <div id="authStep2" style="display:none">
@@ -894,6 +906,9 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
           Build my plan — it's free
         </button>
         <div class="hero-cta-sub">Free forever for one project. No card needed.</div>
+        <div class="hero-signin-row">
+          Already have an account? <button class="hero-signin-link" onclick="showSignIn()">Sign in →</button>
+        </div>
         <button class="hero-pro-link" onclick="nav('upgrade')">Already want Pro? See plans →</button>
       </div>
     </div>
@@ -1558,6 +1573,14 @@ function isSerious(){return getPlan()==='serious';}
 function hasPlan(){const p=localStorage.getItem('tb_plan');return !!(p&&p!=='none');}
 
 function openCheckout(){
+  // Must be signed in so Pro status can be saved to their account
+  if(!_sbUser){
+    // Store intent to open checkout after sign-in
+    localStorage.setItem('tb_checkout_pending','1');
+    toast('Sign in first — so your Pro plan is linked to your account.','warn');
+    setTimeout(()=>showScreen('s-auth'),800);
+    return;
+  }
   const win=window.open(STRIPE_URL,'_blank');
   if(!win){toast('Popup blocked. Please allow popups to open Stripe.','warn');return;}
   toast('Complete payment in the new tab, then come back ✓');
@@ -1595,10 +1618,14 @@ function showPaymentSuccess(){
   banner.style.cssText='position:fixed;top:68px;left:50%;transform:translateX(-50%);z-index:9998;background:linear-gradient(135deg,#15803d,#16A34A);color:#fff;padding:22px 32px 18px;border-radius:18px;box-shadow:0 16px 48px rgba(22,163,74,.5);font-family:var(--f);text-align:center;min-width:340px;max-width:94vw;animation:paySlide .45s cubic-bezier(.34,1.56,.64,1)';
   banner.innerHTML=`
     <div style="font-size:32px;margin-bottom:10px">🎉</div>
-    <div style="font-size:18px;font-weight:700;margin-bottom:5px;letter-spacing:-.3px">You're now on Pro plan!</div>
-    <div style="font-size:13px;opacity:.9;margin-bottom:6px;line-height:1.55">All features are unlocked. Multiple projects,<br>smarter plans, PDF export, and more.</div>
-    <div style="font-size:11px;opacity:.7;margin-bottom:16px">Subscription active. Manage billing anytime via Stripe.</div>
-    <button onclick="document.getElementById('paySuccessBanner').remove();setPlan('serious');updatePlanUI();startOnboarding();" style="background:rgba(255,255,255,.22);border:1.5px solid rgba(255,255,255,.4);color:#fff;border-radius:9px;padding:9px 22px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--f);transition:background .15s" onmouseover="this.style.background='rgba(255,255,255,.32)'" onmouseout="this.style.background='rgba(255,255,255,.22)'">Start your first project →</button>
+    <div style="font-size:18px;font-weight:700;margin-bottom:5px;letter-spacing:-.3px">You're now on Pro!</div>
+    <div style="font-size:13px;opacity:.9;margin-bottom:12px;line-height:1.55">All features unlocked. Multiple projects, smarter plans, PDF export.</div>
+    ${!_sbUser?`<div style="background:rgba(255,255,255,.15);border-radius:10px;padding:12px 16px;margin-bottom:14px;font-size:12px;line-height:1.6;opacity:.95">
+      <strong>⚠️ Important:</strong> Sign in with your email so Pro is saved permanently. Without signing in, Pro will reset when you close the tab.
+    </div>
+    <button onclick="document.getElementById('paySuccessBanner').remove();showSignIn();" style="width:100%;background:#fff;color:#6C63FF;border:none;border-radius:9px;padding:11px 22px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--f);margin-bottom:8px">Sign in to save Pro permanently →</button>
+    <button onclick="document.getElementById('paySuccessBanner').remove();setPlan('serious');updatePlanUI();startOnboarding();" style="width:100%;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.3);color:#fff;border-radius:9px;padding:9px 22px;font-size:13px;cursor:pointer;font-family:var(--f)">Skip for now — start a project</button>`
+    :`<button onclick="document.getElementById('paySuccessBanner').remove();setPlan('serious');updatePlanUI();startOnboarding();" style="background:rgba(255,255,255,.22);border:1.5px solid rgba(255,255,255,.4);color:#fff;border-radius:9px;padding:9px 22px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--f)">Start your first project →</button>`}
   `;
   document.body.appendChild(banner);
   setTimeout(()=>{
@@ -2100,7 +2127,10 @@ function addProjectFromValuesWithTasks({goal,desc,days,startDate,color=0,customT
   }
   const tasks=customTasks||genTasks(goal,desc||goal,days);
   const proj={id:uid(),goal,desc,total:days,mode:getPlan(),startDate:startDate||TDS,tasks,streak:0,ci:color};
-  PROJS.push(proj);CUR_PROJ=proj.id;save();showApp();renderSbProjs();nav('today');
+  PROJS.push(proj);CUR_PROJ=proj.id;save();
+  // Sync immediately so project is never lost
+  if(_sbUser)syncToCloud();
+  showApp();renderSbProjs();nav('today');
   toast('Plan created! Come back tomorrow for Day 2. ✅','ok');
   return true;
 }
@@ -3244,7 +3274,7 @@ function updateUserBadge(user){
 }
 
 function showAccountMenu(){
-  if(!_sbUser){ toast('Not signed in.','warn'); return; }
+  if(!_sbUser){ showSignIn(); return; }
   const name = _sbUser.email;
   const choice = confirm(name + ' — Sign out?');
   if(choice) signOut();
@@ -3255,6 +3285,8 @@ async function signOut(){
   _sbUser = null;
   updateUserBadge(null);
   localStorage.removeItem('tb_no_account');
+  localStorage.removeItem('taskbit_pro');
+  localStorage.removeItem('tb_plan');
   showScreen('s-auth');
   toast('Signed out.','ok');
 }
@@ -3317,7 +3349,6 @@ async function loadFromCloud(){
   }
 }
 
-// Debounced save — syncs 2s after last change
 function save(){
   localStorage.setItem('tb_projs',JSON.stringify({v:VER,projs:PROJS,cur:CUR_PROJ}));
   if(_sbUser){
@@ -3333,6 +3364,25 @@ function saveW(pid,w){
     _syncTimer = setTimeout(syncToCloud, 2000);
   }
 }
+
+// Sync immediately before page closes — catches unsaved changes
+window.addEventListener('beforeunload',()=>{
+  if(_sbUser&&PROJS.length){
+    // Use sendBeacon for reliable unload sync
+    const data={
+      user_id:_sbUser.id,
+      projs_json:JSON.stringify({v:VER,projs:PROJS,cur:CUR_PROJ}),
+      updated_at:new Date().toISOString(),
+      is_pro:localStorage.getItem('taskbit_pro')==='true'
+    };
+    const writings={};
+    PROJS.forEach(p=>{const w=getW(p.id);if(Object.keys(w).length)writings[p.id]=w;});
+    data.writings_json=JSON.stringify(writings);
+    // Try immediate sync
+    clearTimeout(_syncTimer);
+    syncToCloud();
+  }
+});
 
 // ── Boot with auth ──
 async function bootWithAuth(){
@@ -3356,8 +3406,8 @@ async function bootWithAuth(){
     bootApp(loaded);
     return;
   }
-  // Check if user chose no-account
-  if(localStorage.getItem('tb_no_account')||window._pendingPaySuccess){
+  // Check if user chose no-account OR returning from Stripe payment
+  if(window._pendingPaySuccess){
     bootApp();
     return;
   }
@@ -3368,6 +3418,15 @@ async function bootWithAuth(){
       updateUserBadge(_sbUser);
       const loaded = await loadFromCloud();
       bootApp(loaded);
+      // If user was trying to checkout before signing in, open it now
+      if(localStorage.getItem('tb_checkout_pending')){
+        localStorage.removeItem('tb_checkout_pending');
+        setTimeout(()=>{
+          const win=window.open(STRIPE_URL,'_blank');
+          if(!win)toast('Allow popups to open Stripe checkout.','warn');
+          else toast('Complete payment in the new tab, then come back ✓');
+        },500);
+      }
     }
   });
   // Show auth screen
