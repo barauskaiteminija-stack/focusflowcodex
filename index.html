@@ -2732,6 +2732,8 @@ function showScreen(id){
 }
 function setNav(v){['today','tasks','document','calendar','upgrade'].forEach(n=>{[$('sb-'+n),$('tp-'+n),$('mob-'+n)].forEach(el=>{if(el)el.classList.toggle('on',n===v);});});}
 function nav(v){
+  // Restore sign-in button when navigating (it gets hidden on auth screen)
+  if(!_sbUser){const btn=document.getElementById('userSigninBtn');if(btn)btn.classList.remove('hide');}
   setNav(v);
   const active=activeProjs();
   if(v==='upgrade'){showScreen('s-upgrade');return;}
@@ -3262,7 +3264,7 @@ function useWithoutAccount(){
 function showSignIn(){
   localStorage.removeItem('tb_no_account');
   const signinBtn = document.getElementById('userSigninBtn');
-  if(signinBtn) signinBtn.style.display='none';
+  if(signinBtn) signinBtn.classList.add('hide');
   showScreen('s-auth');
 }
 
@@ -3334,6 +3336,7 @@ async function loadFromCloud(){
     if(data.is_pro===true){
       localStorage.setItem('taskbit_pro','true');
       localStorage.setItem('tb_plan','serious');
+      updatePlanUI();
     }
     if(data.projs_json){
       const p = JSON.parse(data.projs_json);
@@ -3427,6 +3430,13 @@ async function bootWithAuth(){
       updateUserBadge(_sbUser);
       const loaded = await loadFromCloud();
       bootApp(loaded);
+      // After sign-in, immediately sync any local data (including Pro status) to cloud
+      setTimeout(async()=>{
+        await syncToCloud();
+        // Reload Pro status from cloud to ensure badge is correct
+        await loadFromCloud();
+        updatePlanUI();
+      },1000);
       // If user was trying to checkout before signing in, open it now
       if(localStorage.getItem('tb_checkout_pending')){
         localStorage.removeItem('tb_checkout_pending');
@@ -3434,7 +3444,7 @@ async function bootWithAuth(){
           const win=window.open(STRIPE_URL,'_blank');
           if(!win)toast('Allow popups to open Stripe checkout.','warn');
           else toast('Complete payment in the new tab, then come back ✓');
-        },500);
+        },1500);
       }
     }
   });
@@ -3649,7 +3659,9 @@ function bootApp(cloudLoaded){
       showApp();renderSbProjs();renderToday();showScreen('s-today');setNav('today');
     } else {showScreen('s-welcome');setNav('today');}
   } else {showScreen('s-welcome');setNav('today');}
-  // Show "Save my data" button if not signed in
+  // Always update plan badge after loading
+  updatePlanUI();
+  // Show sign-in button if not signed in
   if(!_sbUser) updateUserBadge(null);
   else updateUserBadge(_sbUser);
   // Show payment success banner if returning from Stripe
