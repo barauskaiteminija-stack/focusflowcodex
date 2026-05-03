@@ -2732,8 +2732,8 @@ function showScreen(id){
 }
 function setNav(v){['today','tasks','document','calendar','upgrade'].forEach(n=>{[$('sb-'+n),$('tp-'+n),$('mob-'+n)].forEach(el=>{if(el)el.classList.toggle('on',n===v);});});}
 function nav(v){
-  // Restore sign-in button when navigating (it gets hidden on auth screen)
-  if(!_sbUser){const btn=document.getElementById('userSigninBtn');if(btn)btn.classList.remove('hide');}
+  // Restore sign-in button when navigating away from auth screen
+  if(!_sbUser){const btn=document.getElementById('userSigninBtn');if(btn)btn.style.display='inline-block';}
   setNav(v);
   const active=activeProjs();
   if(v==='upgrade'){showScreen('s-upgrade');return;}
@@ -3263,9 +3263,10 @@ function useWithoutAccount(){
 
 function showSignIn(){
   localStorage.removeItem('tb_no_account');
-  const signinBtn = document.getElementById('userSigninBtn');
-  if(signinBtn) signinBtn.classList.add('hide');
   showScreen('s-auth');
+  // Hide sign-in button only on auth screen itself
+  const signinBtn = document.getElementById('userSigninBtn');
+  if(signinBtn) signinBtn.style.display = 'none';
 }
 
 function updateUserBadge(user){
@@ -3277,10 +3278,10 @@ function updateUserBadge(user){
     if(badge) badge.style.display = 'flex';
     if(email) email.textContent = user.email.split('@')[0];
     if(dot) dot.className = 'user-badge-dot';
-    if(signinBtn) signinBtn.classList.add('hide');
+    if(signinBtn) signinBtn.style.display = 'none';
   } else {
     if(badge) badge.style.display = 'none';
-    if(signinBtn) signinBtn.classList.remove('hide');
+    if(signinBtn) signinBtn.style.display = 'inline-block';
   }
 }
 
@@ -3336,7 +3337,10 @@ async function loadFromCloud(){
     if(data.is_pro===true){
       localStorage.setItem('taskbit_pro','true');
       localStorage.setItem('tb_plan','serious');
+      // Call immediately and again after DOM is ready
       updatePlanUI();
+      setTimeout(updatePlanUI, 100);
+      setTimeout(updatePlanUI, 500);
     }
     if(data.projs_json){
       const p = JSON.parse(data.projs_json);
@@ -3413,9 +3417,11 @@ async function bootWithAuth(){
   if(session){
     _sbUser = session.user;
     updateUserBadge(_sbUser);
-    // Try loading cloud data first
+    // Load cloud data — this restores is_pro among other things
     const loaded = await loadFromCloud();
     bootApp(loaded);
+    // Force plan UI update after cloud data is loaded
+    updatePlanUI();
     return;
   }
   // Check if user chose no-account OR returning from Stripe payment
