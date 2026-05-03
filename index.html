@@ -72,8 +72,9 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
 .plan-badge{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:99px;font-size:11px;font-weight:700;cursor:pointer;transition:all var(--tx);border:1px solid transparent}
 .plan-badge.free{background:var(--sur2);color:var(--ink3);border-color:var(--b2)}
 .plan-badge.free:hover{color:var(--ink);border-color:var(--b3)}
-.plan-badge.serious{background:var(--ac-bg);color:var(--acl);border-color:rgba(108,99,255,.3)}
-[data-theme="light"] .plan-badge.serious{color:var(--ac)}
+.plan-badge.serious,.plan-badge.pro{background:linear-gradient(135deg,rgba(108,99,255,.2),rgba(138,131,255,.15));color:var(--acl);border-color:rgba(108,99,255,.4);box-shadow:0 0 12px rgba(108,99,255,.15)}
+.plan-badge.serious:hover,.plan-badge.pro:hover{border-color:rgba(108,99,255,.6);box-shadow:0 0 16px rgba(108,99,255,.25)}
+[data-theme="light"] .plan-badge.serious,[data-theme="light"] .plan-badge.pro{color:var(--ac)}
 
 /* SHELL */
 .shell{display:flex;flex:1;min-height:0}
@@ -109,6 +110,8 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
 .sb-settings-btn{display:flex;align-items:center;gap:4px;background:none;border:none;font-family:var(--f);font-size:11px;color:var(--ink3);cursor:pointer;padding:5px 0 0;transition:color var(--tx)}
 .sb-settings-btn:hover{color:var(--acl)}
 [data-theme="light"] .sb-settings-btn:hover{color:var(--ac)}
+.sb-pro-tag{display:inline-flex;align-items:center;font-size:10px;font-weight:700;color:var(--acl);background:var(--ac-bg);border:1px solid rgba(108,99,255,.2);border-radius:99px;padding:2px 8px;margin-top:6px;letter-spacing:.2px}
+[data-theme="light"] .sb-pro-tag{color:var(--ac)}
 
 /* MAIN */
 .main{flex:1;min-width:0;padding:32px 40px 64px;background:var(--bg);overflow:visible}
@@ -1566,9 +1569,10 @@ function checkStripeReturn(){
   const isPaid=p.get('paid')==='true'||p.get('plan')==='serious';
   if(isPaid){
     localStorage.setItem('taskbit_pro','true');
-    setPlan('serious');
+    localStorage.setItem('tb_plan','serious');
     window.history.replaceState({},'',window.location.pathname);
-    setTimeout(()=>showPaymentSuccess(),400);
+    // Store flag so we show banner after boot completes
+    window._pendingPaySuccess=true;
   }
 }
 function showPaymentSuccess(){
@@ -1597,22 +1601,20 @@ function updatePlanUI(){
   const badge=$('planBadge');const serious=isSerious();
   if(badge){
     badge.className='plan-badge '+(serious?'pro':'free');
-    badge.textContent=serious?'⚡ Pro':'Free';
+    badge.innerHTML=serious?'<span style="font-size:10px">⚡</span> Pro':'Free';
     badge.style.display='inline-flex';
-    badge.title=serious?'Pro plan active':'Free plan';
+    badge.title=serious?'Pro plan active — click to manage':'Free plan — click to upgrade';
   }
   const cp=$('chillPlanBtn');const sp=$('seriousPlanBtn');
-  if(cp){cp.textContent=serious?'Switch to Free':'✓ Current plan';cp.disabled=!serious;}
+  if(cp){cp.textContent=serious?'Switch to Free':'✓ Current plan (Free)';cp.disabled=!serious;}
   if(sp){
     if(serious){
       sp.textContent='✓ Pro plan active';
-      sp.style.opacity='.65';
-      sp.style.cursor='default';
+      sp.style.cssText='font-size:15px;padding:14px;opacity:.6;cursor:default;background:var(--gr);';
       sp.onclick=null;
     } else {
       sp.textContent='🔒 Unlock Pro, €2.99/mo';
-      sp.style.opacity='';
-      sp.style.cursor='';
+      sp.style.cssText='font-size:15px;padding:14px;';
       sp.onclick=openCheckout;
     }
   }
@@ -1620,6 +1622,19 @@ function updatePlanUI(){
   if(expBtn){expBtn.classList.toggle('locked',!serious);expBtn.title=serious?'Export as PDF':'Upgrade to Pro to export PDF';}
   const expFin=$('expFinBtn');
   if(expFin){expFin.classList.toggle('locked',!serious);expFin.title=serious?'':'Upgrade to Pro to export';}
+  // Sidebar settings button — show Pro label
+  const sbGoal=$('sbGoal');
+  if(sbGoal){
+    const existing=sbGoal.querySelector('.sb-pro-tag');
+    if(serious&&!existing){
+      const tag=document.createElement('div');
+      tag.className='sb-pro-tag';
+      tag.textContent='⚡ Pro';
+      sbGoal.appendChild(tag);
+    } else if(!serious&&existing){
+      existing.remove();
+    }
+  }
 }
 
 function showFirstDoneUpsell(p){
@@ -3304,6 +3319,7 @@ async function bootWithAuth(){
     return;
   }
   // Check for magic link in URL (user came back from email)
+  // Also skip auth if returning from Stripe payment
   const {data:{session}} = await _sb.auth.getSession();
   if(session){
     _sbUser = session.user;
@@ -3314,7 +3330,7 @@ async function bootWithAuth(){
     return;
   }
   // Check if user chose no-account
-  if(localStorage.getItem('tb_no_account')){
+  if(localStorage.getItem('tb_no_account')||window._pendingPaySuccess){
     bootApp();
     return;
   }
@@ -3538,6 +3554,12 @@ function bootApp(cloudLoaded){
       showApp();renderSbProjs();renderToday();showScreen('s-today');setNav('today');
     } else {showScreen('s-welcome');setNav('today');}
   } else {showScreen('s-welcome');setNav('today');}
+  // Show payment success banner if returning from Stripe
+  if(window._pendingPaySuccess){
+    window._pendingPaySuccess=false;
+    updatePlanUI();
+    setTimeout(()=>showPaymentSuccess(),600);
+  }
 }
 </script>
 </body>
