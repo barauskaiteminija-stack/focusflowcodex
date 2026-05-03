@@ -3235,7 +3235,9 @@ async function sendMagicLink(){
   if(btn){ btn.disabled=true; btn.textContent='Sending…'; }
   const {error} = await _sb.auth.signInWithOtp({
     email,
-    options:{ emailRedirectTo: window.location.href }
+    options:{
+      emailRedirectTo: window.location.origin + window.location.pathname
+    }
   });
   if(btn){ btn.disabled=false; btn.textContent='Send magic link'; }
   if(error){ showAuthErr(error.message); return; }
@@ -3403,13 +3405,20 @@ window.addEventListener('beforeunload',()=>{
 // ── Boot with auth ──
 async function bootWithAuth(){
   if(!isSupabaseConfigured()){
-    // Supabase not set up yet — skip auth, boot normally
     bootApp();
     return;
   }
   if(!initSupabase()){
     bootApp();
     return;
+  }
+  // Handle magic link — Supabase puts token in URL hash or code param
+  // Exchange it before calling getSession so it's available immediately
+  const hashParams=new URLSearchParams(window.location.hash.replace('#',''));
+  const urlParams=new URLSearchParams(window.location.search);
+  if(hashParams.get('access_token')||urlParams.get('code')||hashParams.get('error_description')){
+    // Give Supabase client time to auto-process the token from URL
+    await new Promise(r=>setTimeout(r,800));
   }
   // Check for magic link in URL (user came back from email)
   // Also skip auth if returning from Stripe payment
