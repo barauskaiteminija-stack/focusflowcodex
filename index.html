@@ -286,7 +286,8 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
 .ob-more-row{padding:11px 18px;font-size:12px;color:var(--ink3);text-align:center;background:var(--sur2)}
 @media(max-width:600px){.ob-wrap{padding:20px 0 80px}}
 /* AUTH */
-.auth-wrap{max-width:420px;margin:0 auto;padding:60px 0 40px;display:flex;flex-direction:column;align-items:center;gap:32px}
+.auth-tagline{font-size:14px;color:var(--ink3);text-align:center;margin-top:-16px}
+.auth-wrap{max-width:420px;margin:0 auto;padding:60px 0 40px;display:flex;flex-direction:column;align-items:center;gap:24px}
 .auth-logo{display:flex;align-items:center;gap:12px}
 .auth-logo-name{font-size:22px;font-weight:700;color:var(--ink);letter-spacing:-.5px}
 .auth-box{background:var(--sur);border:1px solid var(--b2);border-radius:var(--rxl);padding:32px;width:100%}
@@ -302,6 +303,11 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
 .auth-benefit span{color:var(--gr);font-weight:700;flex-shrink:0}
 .auth-data-warning{display:flex;align-items:flex-start;gap:8px;background:var(--or-bg);border:1px solid rgba(251,146,60,.25);border-radius:var(--r);padding:10px 12px;font-size:12px;color:var(--or);line-height:1.5;margin-top:12px}
 .auth-data-warning svg{flex-shrink:0;margin-top:1px;opacity:.8}
+.auth-divider{display:flex;align-items:center;gap:10px;margin:16px 0 4px;color:var(--ink3);font-size:12px}
+.auth-divider::before,.auth-divider::after{content:"";flex:1;height:1px;background:var(--b2)}
+.auth-skip{background:none;border:none;font-family:var(--f);font-size:13px;color:var(--ink3);cursor:pointer;padding:6px 0;transition:color var(--tx);display:block;width:100%;text-align:center}
+.auth-skip:hover{color:var(--ink)}
+.auth-skip-note{font-size:11px;color:var(--ink3);text-align:center;margin-top:4px;line-height:1.5;padding:0 8px}
 .auth-check-ico{font-size:40px;text-align:center;margin-bottom:16px}
 .auth-legal{font-size:11px;color:var(--ink3);text-align:center}
 /* User badge in topbar */
@@ -785,7 +791,7 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
       <div class="user-badge-dot" id="userBadgeDot"></div>
       <span id="userBadgeEmail"></span>
     </div>
-    <button class="user-signin-btn" id="userSigninBtn" onclick="showSignIn()" style="display:none" title="Sign in"></button>
+    <button class="user-signin-btn" id="userSigninBtn" onclick="showSignIn()" style="display:none">Save my data</button>
     <button class="plan-badge" id="planBadge" onclick="nav('upgrade')" style="display:none"></button>
     <button class="icon-btn" onclick="toggleTheme()" title="Toggle theme">
       <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><circle cx="7.5" cy="7.5" r="3"/><path d="M7.5 1v1M7.5 13v1M1 7.5h1M13 7.5h1M3 3l.7.7M11.3 11.3l.7.7M11.3 3l-.7.7M3 11.3l-.7.7"/></svg>
@@ -825,14 +831,15 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
           <div class="logo-mark" style="width:48px;height:48px;border-radius:14px;font-size:22px">T</div>
           <div class="auth-logo-name">Taskbit</div>
         </div>
+        <div class="auth-tagline">Finish what you start — one task a day.</div>
         <div class="auth-box" id="authBox">
           <!-- Step 1: enter email -->
           <div id="authStep1">
-            <div class="auth-h">Welcome to Taskbit</div>
-            <div class="auth-s">Enter your email to get started. We'll send you a magic link — no password needed.</div>
+            <div class="auth-h">Create a free account</div>
+            <div class="auth-s">Your account keeps your projects safe and synced across all your devices. Enter your email — we'll send a magic link, no password needed.</div>
             <input class="f-in auth-email" id="authEmail" type="email" placeholder="your@email.com" autocomplete="email"
               onkeydown="if(event.key==='Enter')sendMagicLink()">
-            <button class="btn-p auth-btn" onclick="sendMagicLink()" id="authSendBtn">Continue with email →</button>
+            <button class="btn-p auth-btn" onclick="sendMagicLink()" id="authSendBtn">Create account / Sign in →</button>
             <div class="auth-err" id="authErr"></div>
             <div class="auth-data-warning">
               <svg width="13" height="13" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="7.5" cy="7.5" r="6"/><path d="M7.5 5v3M7.5 10h.01"/></svg>
@@ -843,6 +850,9 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
               <div class="auth-benefit"><span>✓</span> Your progress syncs across all devices</div>
               <div class="auth-benefit"><span>✓</span> No password — just click the link in your email</div>
             </div>
+            <div class="auth-divider"><span>or</span></div>
+            <button class="auth-skip" onclick="useWithoutAccount()">Continue without an account</button>
+            <div class="auth-skip-note">⚠️ Your data will only be saved in this browser. Clearing your browser or switching device will lose all progress.</div>
           </div>
           <!-- Step 2: check email -->
           <div id="authStep2" style="display:none">
@@ -3265,11 +3275,7 @@ function updateUserBadge(user){
     if(signinBtn) signinBtn.style.display = 'none';
   } else {
     badge.style.display = 'none';
-    // Show sign-in button only when app is active (not on welcome/auth screen)
-    if(signinBtn){
-      const appActive = document.getElementById('appShell') && document.getElementById('appShell').classList.contains('show');
-      signinBtn.style.display = appActive ? 'inline-block' : 'none';
-    }
+    if(signinBtn) signinBtn.style.display = 'inline-block';
   }
 }
 
@@ -3407,7 +3413,7 @@ async function bootWithAuth(){
     return;
   }
   // Check if user chose no-account OR returning from Stripe payment
-  if(window._pendingPaySuccess){
+  if(localStorage.getItem('tb_no_account')||window._pendingPaySuccess){
     bootApp();
     return;
   }
@@ -3640,11 +3646,9 @@ function bootApp(cloudLoaded){
       showApp();renderSbProjs();renderToday();showScreen('s-today');setNav('today');
     } else {showScreen('s-welcome');setNav('today');}
   } else {showScreen('s-welcome');setNav('today');}
-  // Show sign-in button if not signed in with Supabase
-  if(!_sbUser){
-    const signinBtn=document.getElementById('userSigninBtn');
-    if(signinBtn)signinBtn.style.display='inline-block';
-  }
+  // Show "Save my data" button if not signed in
+  if(!_sbUser) updateUserBadge(null);
+  else updateUserBadge(_sbUser);
   // Show payment success banner if returning from Stripe
   if(window._pendingPaySuccess){
     window._pendingPaySuccess=false;
