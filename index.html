@@ -308,7 +308,9 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
 .auth-skip{background:var(--sur2);border:1.5px solid var(--b2);border-radius:var(--r);font-family:var(--f);font-size:14px;font-weight:500;color:var(--ink2);cursor:pointer;padding:11px 16px;transition:all var(--tx);display:block;width:100%;text-align:center}
 .auth-skip:hover{background:var(--sur3);color:var(--ink);border-color:var(--b3)}
 .auth-skip-note{font-size:11px;color:var(--ink3);text-align:center;margin-top:4px;line-height:1.5;padding:0 8px}
-.auth-check-ico{font-size:40px;text-align:center;margin-bottom:16px}
+.auth-forgot{text-align:right;margin-top:6px;margin-bottom:4px}
+.auth-forgot-btn{background:none;border:none;font-family:var(--f);font-size:12px;color:var(--ink3);cursor:pointer;padding:0;transition:color var(--tx)}
+.auth-forgot-btn:hover{color:var(--acl)}
 .auth-legal{font-size:11px;color:var(--ink3);text-align:center}
 /* User badge in topbar */
 .user-signin-btn{background:var(--ac);color:#fff;border:none;border-radius:99px;font-family:var(--f);font-size:12px;font-weight:600;padding:5px 14px;cursor:pointer;transition:all var(--tx)}
@@ -794,7 +796,7 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
       <span id="userBadgeEmail"></span>
     </div>
     <button class="user-signin-btn" id="userSigninBtn" onclick="showSignIn()">Sign in</button>
-    <button class="plan-badge" id="planBadge" onclick="nav('upgrade')" style="display:none"></button>
+    <button class="plan-badge" id="planBadge" onclick="nav('upgrade')"></button>
     <button class="icon-btn" onclick="toggleTheme()" title="Toggle theme">
       <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><circle cx="7.5" cy="7.5" r="3"/><path d="M7.5 1v1M7.5 13v1M1 7.5h1M13 7.5h1M3 3l.7.7M11.3 11.3l.7.7M11.3 3l-.7.7M3 11.3l-.7.7"/></svg>
     </button>
@@ -808,7 +810,7 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
     <button class="sb-btn"    id="sb-tasks"    onclick="nav('tasks')"><svg class="sb-ico" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M3.5 4h8M3.5 7.5h6M3.5 11h4"/><circle cx="1.5" cy="4" r=".7" fill="currentColor" stroke="none"/><circle cx="1.5" cy="7.5" r=".7" fill="currentColor" stroke="none"/><circle cx="1.5" cy="11" r=".7" fill="currentColor" stroke="none"/></svg>All tasks</button>
     <button class="sb-btn"    id="sb-document" onclick="nav('document')"><svg class="sb-ico" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M4 1h5l4 4v9H4V1z"/><path d="M9 1v4h4M6 8h5M6 11h3"/></svg>Document</button>
     <button class="sb-btn"    id="sb-calendar" onclick="nav('calendar')"><svg class="sb-ico" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><rect x="2" y="3" width="11" height="10" rx="2"/><path d="M5 1v3M10 1v3M2 6.5h11"/></svg>Calendar</button>
-    <button class="sb-btn"    id="sb-upgrade"  onclick="nav('upgrade')"><svg class="sb-ico" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M7.5 1l1.5 4h4l-3.3 2.4 1.3 4L7.5 9l-3.5 2.4 1.3-4L2 5h4z"/></svg>Upgrade to Pro</button>
+    <button class="sb-btn" id="sb-upgrade" onclick="nav('upgrade')"><svg class="sb-ico" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M7.5 1l1.5 4h4l-3.3 2.4 1.3 4L7.5 9l-3.5 2.4 1.3-4L2 5h4z"/></svg><span id="sbUpgradeLabel">Upgrade to Pro</span></button>
     <div class="sb-lbl">Projects</div>
     <div id="sbProjList"></div>
     <button class="sb-add" onclick="openModal()"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 1v10M1 6h10"/></svg>New project</button>
@@ -838,30 +840,33 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
           <!-- Step 1: enter email -->
           <div id="authStep1">
             <div class="auth-h">Create a free account</div>
-            <div class="auth-s">Your account keeps your projects safe and synced across all your devices. Enter your email — we'll send a magic link, no password needed.</div>
+            <div class="auth-s">Your account keeps your projects safe and synced across all your devices.</div>
             <input class="f-in auth-email" id="authEmail" type="email" placeholder="your@email.com" autocomplete="email"
-              onkeydown="if(event.key==='Enter')sendMagicLink()">
-            <button class="btn-p auth-btn" onclick="sendMagicLink()" id="authSendBtn">Create account / Sign in →</button>
+              onkeydown="if(event.key==='Enter')document.getElementById('authPassword').focus()">
+            <input class="f-in auth-email" id="authPassword" type="password" placeholder="Password (min. 6 characters)" autocomplete="current-password" style="margin-top:8px"
+              onkeydown="if(event.key==='Enter')signInWithPassword()">
+            <button class="btn-p auth-btn" onclick="signInWithPassword()" id="authSendBtn">Sign in / Create account →</button>
             <div class="auth-err" id="authErr"></div>
+            <div class="auth-forgot"><button onclick="sendResetEmail()" class="auth-forgot-btn">Forgot password?</button></div>
             <div class="auth-data-warning">
               <svg width="13" height="13" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="7.5" cy="7.5" r="6"/><path d="M7.5 5v3M7.5 10h.01"/></svg>
-              Without an account your projects are only saved in this browser. Close the tab and your work is gone. Creating an account is free and takes 30 seconds.
+              Without an account your projects are only saved in this browser. Close the tab and your work is gone.
             </div>
             <div class="auth-benefits">
               <div class="auth-benefit"><span>✓</span> Free forever for one project</div>
-              <div class="auth-benefit"><span>✓</span> Your progress syncs across all devices</div>
-              <div class="auth-benefit"><span>✓</span> No password — just click the link in your email</div>
+              <div class="auth-benefit"><span>✓</span> Syncs across all your devices</div>
+              <div class="auth-benefit"><span>✓</span> Secure — password never stored by us</div>
             </div>
             <div class="auth-divider"><span>or</span></div>
             <button class="auth-skip" onclick="useWithoutAccount()">Continue without an account →</button>
-            <div class="auth-skip-note">⚠️ Your data will only be saved in this browser. Clearing your browser or switching device will lose all progress.</div>
+            <div class="auth-skip-note">⚠️ Your data will only be saved in this browser. Switching device will lose all progress.</div>
           </div>
-          <!-- Step 2: check email -->
+          <!-- Step 2: reset email sent -->
           <div id="authStep2" style="display:none">
             <div class="auth-check-ico">📬</div>
             <div class="auth-h">Check your email</div>
-            <div class="auth-s">We sent a magic link to <strong id="authEmailSent"></strong>.<br>Click it to sign in — no password needed.</div>
-            <button class="auth-skip" onclick="showAuthStep(1)" style="margin-top:20px">← Use a different email</button>
+            <div class="auth-s">We sent a password reset link to <strong id="authEmailSent"></strong>. Click it to set a new password.</div>
+            <button class="auth-skip" onclick="showAuthStep(1)" style="margin-top:20px">← Back to sign in</button>
           </div>
         </div>
         <div class="auth-legal">By continuing you agree to our <button class="footer-legal-btn" onclick="showLegal('terms')">Terms</button> and <button class="footer-legal-btn" onclick="showLegal('privacy')">Privacy Policy</button>.</div>
@@ -1407,7 +1412,7 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
     <button class="mob-btn"    id="mob-tasks"    onclick="nav('tasks')"><svg viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3.5 4h8M3.5 7.5h6M3.5 11h4"/><circle cx="1.5" cy="4" r=".7" fill="currentColor" stroke="none"/><circle cx="1.5" cy="7.5" r=".7" fill="currentColor" stroke="none"/><circle cx="1.5" cy="11" r=".7" fill="currentColor" stroke="none"/></svg><span>Tasks</span></button>
     <button class="mob-btn"    id="mob-document" onclick="nav('document')"><svg viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M4 1h5l4 4v9H4V1z"/><path d="M9 1v4h4M6 8h5M6 11h3"/></svg><span>Doc</span></button>
     <button class="mob-btn"    id="mob-calendar" onclick="nav('calendar')"><svg viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="3" width="11" height="10" rx="2"/><path d="M5 1v3M10 1v3M2 6.5h11"/></svg><span>Calendar</span></button>
-    <button class="mob-btn"    id="mob-upgrade"  onclick="nav('upgrade')"><svg viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M7.5 1l1.5 4h4l-3.3 2.4 1.3 4L7.5 9l-3.5 2.4 1.3-4L2 5h4z"/></svg><span>Upgrade</span></button>
+    <button class="mob-btn" id="mob-upgrade" onclick="nav('upgrade')"><svg viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M7.5 1l1.5 4h4l-3.3 2.4 1.3 4L7.5 9l-3.5 2.4 1.3-4L2 5h4z"/></svg><span id="mobUpgradeLabel">Upgrade</span></button>
   </div>
 </nav>
 
@@ -1666,6 +1671,12 @@ function updatePlanUI(){
       sp.onclick=openCheckout;
     }
   }
+  const sbUpgradeLabel=document.getElementById('sbUpgradeLabel');
+  if(sbUpgradeLabel)sbUpgradeLabel.textContent=serious?'⚡ Pro plan active':'Upgrade to Pro';
+  const sbUpgradeBtn=document.getElementById('sb-upgrade');
+  if(sbUpgradeBtn)sbUpgradeBtn.style.color=serious?'var(--acl)':'';
+  const mobUpgradeLabel=document.getElementById('mobUpgradeLabel');
+  if(mobUpgradeLabel)mobUpgradeLabel.textContent=serious?'⚡ Pro':'Upgrade';
   const expBtn=$('exportPdfBtn');
   if(expBtn){expBtn.classList.toggle('locked',!serious);expBtn.title=serious?'Export as PDF':'Upgrade to Pro to export PDF';}
   const expFin=$('expFinBtn');
@@ -1711,7 +1722,7 @@ function showFirstDoneUpsell(p){
 }
 function requireSerious(msg){
   if(isSerious())return true;
-  showUpgradeBanner(msg||'This feature requires Pro plan.');
+  showUpgradeBanner(msg||'This feature requires a Pro plan. Upgrade to unlock it.');
   return false;
 }
 function showUpgradeBanner(msg){
@@ -2177,7 +2188,7 @@ function createProjectFromSetup(){
 }
 
 /* ══ APP ══ */
-function showApp(){$('topTabs').classList.add('show');$('mobNav').style.display=window.matchMedia('(max-width:768px)').matches?'block':'';const f=$('appFooter');if(f)f.classList.add('show');}
+function showApp(){$('topTabs').classList.add('show');$('mobNav').style.display=window.matchMedia('(max-width:768px)').matches?'block':'';const f=$('appFooter');if(f)f.classList.add('show');updatePlanUI();}
 function showSetup(){
   showApp();updatePlanUI();setNav('today');
   const _sf=$('appFooter');if(_sf)_sf.classList.add('show');
@@ -2734,6 +2745,8 @@ function setNav(v){['today','tasks','document','calendar','upgrade'].forEach(n=>
 function nav(v){
   // Restore sign-in button when navigating away from auth screen
   if(!_sbUser){const btn=document.getElementById('userSigninBtn');if(btn)btn.style.display='inline-block';}
+  // Always update plan badge on every navigation
+  updatePlanUI();
   setNav(v);
   const active=activeProjs();
   if(v==='upgrade'){showScreen('s-upgrade');return;}
@@ -3226,25 +3239,59 @@ function isSupabaseConfigured(){
 }
 
 // ── Auth ──
-async function sendMagicLink(){
-  if(!isSupabaseConfigured()){ toast('Supabase not configured yet — see setup guide.','warn'); return; }
-  const emailEl = document.getElementById('authEmail');
-  const email = emailEl ? emailEl.value.trim() : '';
-  if(!email || !email.includes('@')){ showAuthErr('Please enter a valid email address.'); return; }
-  const btn = document.getElementById('authSendBtn');
-  if(btn){ btn.disabled=true; btn.textContent='Sending…'; }
-  const {error} = await _sb.auth.signInWithOtp({
-    email,
-    options:{
-      emailRedirectTo: window.location.origin + window.location.pathname
+async function signInWithPassword(){
+  if(!isSupabaseConfigured()){toast('Supabase not configured.','warn');return;}
+  const emailEl=document.getElementById('authEmail');
+  const passEl=document.getElementById('authPassword');
+  const email=emailEl?emailEl.value.trim():'';
+  const password=passEl?passEl.value:'';
+  if(!email||!email.includes('@')){showAuthErr('Please enter a valid email address.');return;}
+  if(!password||password.length<6){showAuthErr('Password must be at least 6 characters.');return;}
+  const btn=document.getElementById('authSendBtn');
+  if(btn){btn.disabled=true;btn.textContent='Signing in...';}
+  // Try sign in first
+  let {data,error}=await _sb.auth.signInWithPassword({email,password});
+  if(error&&(error.message.toLowerCase().includes('invalid')||error.message.toLowerCase().includes('not found')||error.message.toLowerCase().includes('credentials'))){
+    // Account doesn't exist — create it
+    const res=await _sb.auth.signUp({email,password});
+    if(!res.error&&res.data.user){
+      // Sign in with new account
+      const s=await _sb.auth.signInWithPassword({email,password});
+      data=s.data;error=s.error;
+    } else {
+      data=res.data;error=res.error;
     }
-  });
-  if(btn){ btn.disabled=false; btn.textContent='Send magic link'; }
-  if(error){ showAuthErr(error.message); return; }
-  const sentEl = document.getElementById('authEmailSent');
-  if(sentEl) sentEl.textContent = email;
-  showAuthStep(2);
+  }
+  if(btn){btn.disabled=false;btn.textContent='Sign in / Create account →';}
+  if(error){showAuthErr(error.message.replace('AuthApiError: ',''));return;}
+  if(data?.user){
+    _sbUser=data.user;
+    updateUserBadge(_sbUser);
+    const loaded=await loadFromCloud();
+    bootApp(loaded);
+    updatePlanUI();
+    setTimeout(syncToCloud,1000);
+    if(localStorage.getItem('tb_checkout_pending')){
+      localStorage.removeItem('tb_checkout_pending');
+      setTimeout(()=>{const w=window.open(STRIPE_URL,'_blank');if(!w)toast('Allow popups to open Stripe.','warn');},1000);
+    }
+  }
 }
+
+async function sendResetEmail(){
+  const emailEl=document.getElementById('authEmail');
+  const email=emailEl?emailEl.value.trim():'';
+  if(!email||!email.includes('@')){showAuthErr('Enter your email address first.');return;}
+  const {error}=await _sb.auth.resetPasswordForEmail(email,{redirectTo:window.location.origin});
+  if(error){showAuthErr(error.message);return;}
+  const sentEl=document.getElementById('authEmailSent');
+  if(sentEl)sentEl.textContent=email;
+  showAuthStep(2);
+  toast('Password reset email sent. Check your inbox.','ok');
+}
+
+// sendMagicLink kept as alias
+async function sendMagicLink(){return signInWithPassword();}
 
 function showAuthErr(msg){
   const el = document.getElementById('authErr');
