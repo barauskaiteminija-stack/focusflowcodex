@@ -828,6 +828,26 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
   </nav>
 
   <main class="main">
+    <!-- PASSWORD RECOVERY SCREEN -->
+    <div class="screen" id="s-recover">
+      <div class="auth-wrap">
+        <div class="auth-logo">
+          <div class="logo-mark" style="width:48px;height:48px;border-radius:14px;font-size:22px">T</div>
+          <div class="auth-logo-name">Taskbit</div>
+        </div>
+        <div class="auth-box">
+          <div class="auth-h">Set a new password</div>
+          <div class="auth-s">Choose a new password for your account.</div>
+          <input class="f-in auth-email" id="recoverPassword" type="password" placeholder="New password (min. 6 characters)" autocomplete="new-password"
+            onkeydown="if(event.key==='Enter')setNewPassword()">
+          <input class="f-in auth-email" id="recoverPassword2" type="password" placeholder="Confirm new password" autocomplete="new-password" style="margin-top:8px"
+            onkeydown="if(event.key==='Enter')setNewPassword()">
+          <button class="btn-p auth-btn" onclick="setNewPassword()" id="recoverBtn">Set new password →</button>
+          <div class="auth-err" id="recoverErr"></div>
+        </div>
+      </div>
+    </div>
+
     <!-- AUTH SCREEN -->
     <div class="screen" id="s-auth">
       <div class="auth-wrap">
@@ -3290,7 +3310,31 @@ async function sendResetEmail(){
   toast('Password reset email sent. Check your inbox.','ok');
 }
 
-// sendMagicLink kept as alias
+async function setNewPassword(){
+  const p1=document.getElementById('recoverPassword')?.value||'';
+  const p2=document.getElementById('recoverPassword2')?.value||'';
+  const errEl=document.getElementById('recoverErr');
+  if(p1.length<6){if(errEl)errEl.textContent='Password must be at least 6 characters.';return;}
+  if(p1!==p2){if(errEl)errEl.textContent='Passwords do not match.';return;}
+  const btn=document.getElementById('recoverBtn');
+  if(btn){btn.disabled=true;btn.textContent='Saving...';}
+  const {error}=await _sb.auth.updateUser({password:p1});
+  if(btn){btn.disabled=false;btn.textContent='Set new password →';}
+  if(error){if(errEl)errEl.textContent=error.message;return;}
+  toast('Password updated. You are now signed in.','ok');
+  // User is already signed in after password reset
+  const {data:{session}}=await _sb.auth.getSession();
+  if(session){
+    _sbUser=session.user;
+    updateUserBadge(_sbUser);
+    const loaded=await loadFromCloud();
+    bootApp(loaded);
+    updatePlanUI();
+  } else {
+    showScreen('s-auth');
+  }
+}
+
 async function sendMagicLink(){return signInWithPassword();}
 
 function showAuthErr(msg){
@@ -3487,19 +3531,21 @@ async function bootWithAuth(){
   }
   // Listen for auth state changes (magic link click)
   _sb.auth.onAuthStateChange(async(event, session)=>{
+    if(event==='PASSWORD_RECOVERY'){
+      // User clicked password reset link — show set new password screen
+      showScreen('s-recover');
+      return;
+    }
     if(event==='SIGNED_IN'&&session){
       _sbUser = session.user;
       updateUserBadge(_sbUser);
       const loaded = await loadFromCloud();
       bootApp(loaded);
-      // After sign-in, immediately sync any local data (including Pro status) to cloud
       setTimeout(async()=>{
         await syncToCloud();
-        // Reload Pro status from cloud to ensure badge is correct
         await loadFromCloud();
         updatePlanUI();
       },1000);
-      // If user was trying to checkout before signing in, open it now
       if(localStorage.getItem('tb_checkout_pending')){
         localStorage.removeItem('tb_checkout_pending');
         setTimeout(()=>{
