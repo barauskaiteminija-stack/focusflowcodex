@@ -882,10 +882,21 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
             <div class="auth-skip-note">⚠️ Your data will only be saved in this browser. Switching device will lose all progress.</div>
           </div>
           <!-- Step 2: reset email sent -->
+          <!-- Step 2: enter email for reset -->
           <div id="authStep2" style="display:none">
+            <div class="auth-h">Reset your password</div>
+            <div class="auth-s">Enter your email and we'll send you a link to set a new password.</div>
+            <input class="f-in auth-email" id="authResetEmail" type="email" placeholder="your@email.com" autocomplete="email"
+              onkeydown="if(event.key==='Enter')sendResetEmail()">
+            <button class="btn-p auth-btn" onclick="sendResetEmail()" id="authResetBtn">Send reset link →</button>
+            <div class="auth-err" id="authResetErr"></div>
+            <button class="auth-skip" onclick="showAuthStep(1)" style="margin-top:12px">← Back to sign in</button>
+          </div>
+          <!-- Step 3: reset email sent confirmation -->
+          <div id="authStep3" style="display:none">
             <div class="auth-check-ico">📬</div>
             <div class="auth-h">Check your email</div>
-            <div class="auth-s">We sent a password reset link to <strong id="authEmailSent"></strong>. Click it to set a new password.</div>
+            <div class="auth-s">We sent a password reset link to <strong id="authEmailSent"></strong>.<br>Click it to set a new password.</div>
             <button class="auth-skip" onclick="showAuthStep(1)" style="margin-top:20px">← Back to sign in</button>
           </div>
         </div>
@@ -1605,8 +1616,18 @@ function toggleTheme(){const n=document.documentElement.getAttribute('data-theme
 
 /* ══ PLAN / MONETIZATION ══ */
 function getPlan(){return localStorage.getItem('taskbit_pro')==='true'?'serious':(localStorage.getItem('tb_plan')||'chill');}
-function setPlan(p){localStorage.setItem('tb_plan',p);if(p==='serious')localStorage.setItem('taskbit_pro','true');else localStorage.removeItem('taskbit_pro');updatePlanUI();}
-function isSerious(){return getPlan()==='serious';}
+function setPlan(p){
+  // Guard: never downgrade away from Pro unless explicitly called with 'signout' flag
+  if(p!=='serious'&&localStorage.getItem('taskbit_pro')==='true'){
+    updatePlanUI();return; // Already Pro — ignore downgrade attempt
+  }
+  localStorage.setItem('tb_plan',p);
+  if(p==='serious'){localStorage.setItem('taskbit_pro','true');}
+  else{localStorage.removeItem('taskbit_pro');}
+  updatePlanUI();
+}
+function isSerious(){return localStorage.getItem('taskbit_pro')==='true';}
+function forceClearPro(){localStorage.removeItem('taskbit_pro');localStorage.removeItem('tb_plan');updatePlanUI();}
 function hasPlan(){const p=localStorage.getItem('tb_plan');return !!(p&&p!=='none');}
 
 function openCheckout(){
@@ -1623,8 +1644,8 @@ function openCheckout(){
   toast('Complete payment in the new tab, then come back ✓');
 }
 
-function startChill(){setPlan('free');showApp();const f=$("appFooter");if(f)f.classList.add("show");activeProjs().length?nav('today'):startOnboarding();}
-function switchToChill(){setPlan('free');activeProjs().length?nav('today'):showSetup();toast('Switched to Free mode.');}
+function startChill(){showApp();const f=$("appFooter");if(f)f.classList.add("show");activeProjs().length?nav('today'):startOnboarding();}
+function switchToChill(){forceClearPro();activeProjs().length?nav('today'):showSetup();toast('Switched to Free mode.');}
 
 function checkStripeReturn(){
   const p=new URLSearchParams(window.location.search);
@@ -2845,7 +2866,7 @@ function clearTemplate(){
 let _obDays = 7;
 
 function startOnboarding(){
-  setPlan('free');
+  // Never reset plan — Pro users stay Pro
   const f=$('appFooter');if(f)f.classList.add('show');
   const g=$('obGoal');if(g)g.value='';
   const d=$('obDesc');if(d)d.value='';
@@ -3287,9 +3308,15 @@ async function signInWithPassword(){
   if(data?.user){
     _sbUser=data.user;
     updateUserBadge(_sbUser);
+    // Load from cloud first — this restores is_pro
     const loaded=await loadFromCloud();
+    // updatePlanUI is called inside loadFromCloud when is_pro is true
     bootApp(loaded);
+    // Force update plan UI multiple times to ensure badge is correct
     updatePlanUI();
+    setTimeout(updatePlanUI,200);
+    setTimeout(updatePlanUI,800);
+    // Sync local data up to cloud
     setTimeout(syncToCloud,1000);
     if(localStorage.getItem('tb_checkout_pending')){
       localStorage.removeItem('tb_checkout_pending');
@@ -3299,15 +3326,18 @@ async function signInWithPassword(){
 }
 
 async function sendResetEmail(){
-  const emailEl=document.getElementById('authEmail');
+  const emailEl=document.getElementById('authResetEmail');
   const email=emailEl?emailEl.value.trim():'';
-  if(!email||!email.includes('@')){showAuthErr('Enter your email address first.');return;}
+  const errEl=document.getElementById('authResetErr');
+  if(!email||!email.includes('@')){if(errEl)errEl.textContent='Please enter a valid email address.';return;}
+  const btn=document.getElementById('authResetBtn');
+  if(btn){btn.disabled=true;btn.textContent='Sending...';}
   const {error}=await _sb.auth.resetPasswordForEmail(email,{redirectTo:window.location.origin});
-  if(error){showAuthErr(error.message);return;}
+  if(btn){btn.disabled=false;btn.textContent='Send reset link →';}
+  if(error){if(errEl)errEl.textContent=error.message;return;}
   const sentEl=document.getElementById('authEmailSent');
   if(sentEl)sentEl.textContent=email;
-  showAuthStep(2);
-  toast('Password reset email sent. Check your inbox.','ok');
+  showAuthStep(3);
 }
 
 async function setNewPassword(){
@@ -3345,8 +3375,18 @@ function showAuthErr(msg){
 function showAuthStep(n){
   document.getElementById('authStep1').style.display = n===1?'':'none';
   document.getElementById('authStep2').style.display = n===2?'':'none';
+  document.getElementById('authStep3').style.display = n===3?'':'none';
   const err = document.getElementById('authErr');
   if(err) err.textContent = '';
+  const err2 = document.getElementById('authResetErr');
+  if(err2) err2.textContent = '';
+  // Pre-fill reset email with main email if available
+  if(n===2){
+    const mainEmail = document.getElementById('authEmail')?.value.trim();
+    const resetEmail = document.getElementById('authResetEmail');
+    if(resetEmail && mainEmail) resetEmail.value = mainEmail;
+    setTimeout(()=>{const r=document.getElementById('authResetEmail');if(r)r.focus();},100);
+  }
 }
 
 function useWithoutAccount(){
@@ -3390,8 +3430,7 @@ async function signOut(){
   _sbUser = null;
   updateUserBadge(null);
   localStorage.removeItem('tb_no_account');
-  localStorage.removeItem('taskbit_pro');
-  localStorage.removeItem('tb_plan');
+  forceClearPro();
   showScreen('s-auth');
   toast('Signed out.','ok');
 }
@@ -3504,16 +3543,27 @@ async function bootWithAuth(){
     return;
   }
   // Handle magic link — Supabase puts token in URL hash or code param
-  // Exchange it before calling getSession so it's available immediately
   const hashParams=new URLSearchParams(window.location.hash.replace('#',''));
   const urlParams=new URLSearchParams(window.location.search);
+  const tokenType=hashParams.get('type')||urlParams.get('type');
+  // Password recovery — show reset screen immediately
+  if(tokenType==='recovery'||hashParams.get('type')==='recovery'){
+    await new Promise(r=>setTimeout(r,600));
+    window.history.replaceState({},'',window.location.pathname);
+    showScreen('s-recover');
+    return;
+  }
   if(hashParams.get('access_token')||urlParams.get('code')||hashParams.get('error_description')){
-    // Give Supabase client time to auto-process the token from URL
     await new Promise(r=>setTimeout(r,800));
   }
   // Check for magic link in URL (user came back from email)
   // Also skip auth if returning from Stripe payment
   const {data:{session}} = await _sb.auth.getSession();
+  // If session exists AND we came from a password reset link, show recovery screen
+  if(session&&(tokenType==='recovery')){
+    showScreen('s-recover');
+    return;
+  }
   if(session){
     _sbUser = session.user;
     updateUserBadge(_sbUser);
