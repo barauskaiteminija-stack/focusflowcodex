@@ -2293,7 +2293,7 @@ function archiveProj(pid){
   const p=PROJS.find(pr=>pr.id===pid);if(!p)return;
   p.archived=true;save();const active=activeProjs();
   CUR_PROJ=active[0]?.id||null;save();renderSbProjs();
-  if(!active.length){$('topTabs').classList.remove('show');$('mobNav').style.display='none';showScreen('s-welcome');}
+  if(!active.length){showApp();showScreen('s-welcome');}
   else nav('today');
   toast('Archived. Your work is safe.');
 }
@@ -2888,6 +2888,7 @@ let _obDays = 7;
 
 function startOnboarding(){
   // Never reset plan — Pro users stay Pro
+  showApp();
   const f=$('appFooter');if(f)f.classList.add('show');
   // Update plan pill to show correct plan
   const pill=$('obPlanPill');
@@ -3841,7 +3842,7 @@ function bootApp(cloudLoaded){
       if(!CUR_PROJ||!active.find(p=>p.id===CUR_PROJ))CUR_PROJ=active[0].id;
       showApp();renderSbProjs();renderToday();showScreen('s-today');setNav('today');
     } else {showScreen('s-welcome');setNav('today');}
-  } else {showScreen('s-welcome');setNav('today');const _mn=$('mobNav');if(_mn){_mn.classList.add('show');_mn.style.display='';}}
+  } else {showApp();showScreen('s-welcome');setNav('today');}
   // Always update plan badge after loading
   updatePlanUI();
   // Show sign-in button if not signed in
