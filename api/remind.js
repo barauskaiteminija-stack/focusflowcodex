@@ -8,8 +8,8 @@ import { createClient } from '@supabase/supabase-js';
 const SUPABASE_URL = 'https://znppdwkvnphbaduytccs.supabase.co';
 const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY; // set in Vercel env vars
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
-const APP_URL = 'https://taskbitapp.vercel.app';
-const FROM_EMAIL = 'onboarding@resend.dev'; // replace with your domain once you have one
+const APP_URL = 'https://taskbit.tech';
+const FROM_EMAIL = 'reminders@taskbit.tech'; // replace with your domain once you have one
 
 export default async function handler(req, res) {
   // Only allow Vercel cron calls (or manual GET for testing)
