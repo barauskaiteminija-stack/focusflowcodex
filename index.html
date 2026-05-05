@@ -968,7 +968,7 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
         <div id="obForm">
           <div class="ob-nav-row">
             <button class="ob-back-btn" onclick="showScreen('s-welcome')">← Back</button>
-            <span class="ob-pill">Free</span>
+            <span class="ob-pill" id="obPlanPill">Free</span>
           </div>
           <div class="ob-tmpl-row">
             <div style="font-size:12px;font-weight:600;color:var(--ink3);text-transform:uppercase;letter-spacing:.5px">Start from a template</div>
@@ -2868,6 +2868,10 @@ let _obDays = 7;
 function startOnboarding(){
   // Never reset plan — Pro users stay Pro
   const f=$('appFooter');if(f)f.classList.add('show');
+  // Update plan pill to show correct plan
+  const pill=$('obPlanPill');
+  if(pill){pill.textContent=isSerious()?'⚡ Pro':'Free';pill.style.background=isSerious()?'var(--ac)':'';pill.style.color=isSerious()?'#fff':'';}
+
   const g=$('obGoal');if(g)g.value='';
   const d=$('obDesc');if(d)d.value='';
   _obDays=7;
