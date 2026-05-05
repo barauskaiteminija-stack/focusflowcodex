@@ -7,8 +7,8 @@ import { createClient } from '@supabase/supabase-js';
 const SUPABASE_URL = 'https://znppdwkvnphbaduytccs.supabase.co';
 const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY;
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
-const APP_URL = 'https://taskbitapp.vercel.app';
-const FROM_EMAIL = 'onboarding@resend.dev';
+const APP_URL = 'https://taskbit.tech';
+const FROM_EMAIL = 'reminders@taskbit.tech';
 
 export default async function handler(req, res) {
   // CORS headers
