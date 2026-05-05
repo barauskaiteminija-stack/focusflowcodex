@@ -17,6 +17,6 @@ export default async function handler(req, res) {
   await sb.from('taskbit_reminders').update({ active: false }).eq('email', email.toLowerCase());
 
   // Redirect to app with a message
-  res.setHeader('Location', 'https://taskbitapp.vercel.app?unsubscribed=1');
+  res.setHeader('Location', 'https://taskbit.tech?unsubscribed=1');
   return res.status(302).end();
 }
