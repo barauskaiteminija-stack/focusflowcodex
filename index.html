@@ -981,7 +981,7 @@ body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh
             <span id="obActiveTmplName"></span>
             <button onclick="clearTemplate()" title="Clear template">✕</button>
           </div>
-          <input class="f-in ob-big-in" id="obGoal" type="text" placeholder="e.g. Internship report, Portfolio site, Study for exam…" maxlength="80" autocomplete="off">
+          <input class="f-in ob-big-in" id="obGoal" type="text" placeholder="e.g. History essay, Biology exam, Dissertation, Coding project…" maxlength="80" autocomplete="off">
           <div class="ob-error" id="obGoalErr">Please enter what you want to finish.</div>
 
           <div class="ob-field-group">
@@ -2801,25 +2801,32 @@ function nav(v){
 
 /* ══ PROJECT TEMPLATES ══ */
 const TEMPLATES=[
-  {id:'essay',icon:'📝',name:'University essay',desc:'Structure your argument from research to submission.',days:7,
-   goal:'University essay',
-   parts:'- Introduction and thesis statement\n- Literature review / background\n- Main argument section 1\n- Main argument section 2\n- Counterargument and rebuttal\n- Conclusion\n~2500 words'},
-  {id:'report',icon:'📋',name:'Internship report',desc:'Document your placement experience professionally.',days:10,
-   goal:'Internship report',
-   parts:'- Introduction\n- Company overview\n- My role and responsibilities\n- Key tasks and projects\n- Skills developed\n- Reflection and conclusions\n~3000 words'},
-  {id:'coding',icon:'💻',name:'Coding project',desc:'Plan, build, and ship a software project.',days:14,
-   goal:'',
-   parts:'- Requirements and scope definition\n- Project setup and architecture\n- Core feature 1\n- Core feature 2\n- Core feature 3\n- Testing and bug fixes\n- Documentation and deployment'},
-  {id:'revision',icon:'📚',name:'Exam revision',desc:'Structured study plan with self-testing built in.',days:14,
+  {id:'essay',icon:'📝',name:'Essay or assignment',desc:'Any written assignment — from school to university level.',days:7,
+   goal:'Essay',
+   parts:'- Understand the question and plan your argument\n- Research and gather sources\n- Write introduction and thesis\n- Main body section 1\n- Main body section 2\n- Main body section 3\n- Conclusion and references\n~1500-2500 words'},
+  {id:'revision',icon:'📚',name:'Exam revision',desc:'Study plan with daily topics, practice tests and review.',days:14,
    goal:'Exam revision',
-   parts:'- Topic 1: foundations\n- Topic 2: core concepts\n- Topic 3: advanced material\n- Topic 4: applications\n- Practice tests and weak areas\n- Final review'},
-  {id:'blog',icon:'✍️',name:'Blog post / article',desc:'Research, draft, and publish a piece of writing.',days:5,
-   goal:'Blog post',
-   parts:'- Research and angle\n- Outline and structure\n- First draft\n- Editing and rewriting\n- Final polish and publish'},
-  {id:'business',icon:'📊',name:'Business plan',desc:'Build a structured plan for a project or venture.',days:21,
-   goal:'Business plan',
-   parts:'- Executive summary\n- Problem and solution\n- Market research\n- Business model\n- Go-to-market strategy\n- Financial projections\n- Risks and mitigations'},
+   parts:'- Topic 1: foundations and key concepts\n- Topic 2: core material\n- Topic 3: harder concepts\n- Topic 4: applications and examples\n- Practice past papers\n- Weak areas review\n- Final summary and cram'},
+  {id:'dissertation',icon:'🎓',name:'Dissertation or thesis',desc:'Break your dissertation into weekly milestones.',days:30,
+   goal:'Dissertation',
+   parts:'- Research question and scope\n- Literature review\n- Methodology chapter\n- Data collection or primary research\n- Analysis and findings\n- Discussion chapter\n- Conclusion and abstract\n- Editing, references, formatting\n~8000-12000 words'},
+  {id:'report',icon:'📋',name:'School or uni report',desc:'Structured report for any subject or placement.',days:10,
+   goal:'Report',
+   parts:'- Introduction and background\n- Main section 1\n- Main section 2\n- Main section 3\n- Analysis and discussion\n- Conclusion and recommendations\n~2000-3000 words'},
+  {id:'project',icon:'🔬',name:'School project',desc:'Science, history, geography or any subject project.',days:10,
+   goal:'School project',
+   parts:'- Choose topic and research question\n- Research and take notes\n- Organise findings\n- Write up main content\n- Add visuals, diagrams or data\n- Conclusion and bibliography\n- Final check and submit'},
+  {id:'coding',icon:'💻',name:'Programming project',desc:'Plan, build and submit a coding assignment or personal project.',days:14,
+   goal:'',
+   parts:'- Define requirements and plan features\n- Set up project and environment\n- Core feature 1\n- Core feature 2\n- Core feature 3\n- Testing and debugging\n- Documentation and submission'},
+  {id:'presentation',icon:'🎤',name:'Presentation or speech',desc:'Research, structure and practise a presentation.',days:5,
+   goal:'Presentation',
+   parts:'- Research topic and find key points\n- Structure slides or speech outline\n- Write speaker notes\n- Design slides\n- Practise and refine\n~10-15 minutes'},
+  {id:'reading',icon:'📖',name:'Reading list or course',desc:'Work through a textbook, course or reading list systematically.',days:21,
+   goal:'',
+   parts:'- Chapter or module 1\n- Chapter or module 2\n- Chapter or module 3\n- Chapter or module 4\n- Chapter or module 5\n- Review notes and summarise\n- Apply or practise what you learned'},
 ];
+
 
 function renderTemplates(){
   const grid=document.getElementById('tmplGrid');
